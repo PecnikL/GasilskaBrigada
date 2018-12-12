@@ -18,4 +18,4 @@ Končni izdelek bo spletna storitev v kateri bo uporabnik lahko:
 
 ## ER diagram
 
-![ER diagram]()
+![ER diagram](Diagram1.png)
