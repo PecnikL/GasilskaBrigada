@@ -44,7 +44,7 @@ def poisci_intervencije_in_vaje_clana(id_clana):
         FROM sodeluje
         WHERE clan = ?
     """
-    return [id_intervencija for (id_intervencija,) in conn.execute(poizvedba, id_clana)]
+    return [id_intervencija for (id_intervencija,) in conn.execute(poizvedba, [id_clana])]
 
 
 
@@ -231,7 +231,6 @@ def spremeni_datum_zdravniškega_pregleda(id_clan, datum = None):
 
 
 
-
 def poisci_clana(niz):
     """
     Funkcija, ki vrne IDje vseh clanov, katerih ime vsebuje dani niz.
@@ -280,13 +279,52 @@ def podatki_clana(id_clana):
     if osnovni_podatki is None:
         return None
     else:
-        ime, = osnovni_podatki
+        ime,priimek,datumRojstva,clanOd, zadnjiZdravniski, = osnovni_podatki
         poizvedba_za_aktivnosti = """
             SELECT id, vrsta, zacetek
             FROM intervencija
             WHERE id IN ({})
         """
         aktivnostiId= poisci_intervencije_in_vaje_clana(id_clana)
-        aktivnosti = conn.execute(poizvedba_za_aktivnosti, aktivnostiId).fetchall()
-        return ime, aktivnosti
+        if len(aktivnostiId) ==0:
+            return ime,priimek,datumRojstva,clanOd, zadnjiZdravniski
+        else:
+            aktivnosti = conn.execute(poizvedba_za_aktivnosti, aktivnostiId).fetchall()
+            return ime,priimek,datumRojstva,clanOd, zadnjiZdravniski, aktivnosti
 
+
+
+
+def poisci_intervencijo(niz):
+    """
+    Funkcija vrne id intervencije
+    Niz je oblike: kraj + " " + datum 
+    """
+    krajInt = niz.split(" ")[0]
+    datumInt = niz.split(" ")[1]
+    poizvedba = """
+        SELECT id
+        FROM intervencija
+        WHERE vrsta = ? AND kraj = ? AND zacetek = ?)
+        """
+    return conn.execute(poizvedba, ['intervencija', krajInt, datumInt])
+
+def poisci_vajo(niz):
+    """
+    Funkcija vrne id intervencije
+    Niz je oblike: kraj + " " + datum 
+    """
+    krajInt = niz.split(" ")[0]
+    datumInt = niz.split(" ")[1]
+    poizvedba = """
+        SELECT id
+        FROM intervencija
+        WHERE vrsta = ? AND kraj = ? AND zacetek = ?)
+        """
+    return conn.execute(poizvedba, ['vaja', krajInt, datumInt])
+
+
+def podatki_intervencije(idInterv):
+    return None
+def podatki_vaje(idVaje):
+    return None
