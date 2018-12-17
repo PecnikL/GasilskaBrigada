@@ -229,3 +229,64 @@ def spremeni_datum_zdravniškega_pregleda(id_clan, datum = None):
         conn.execute(poizvedba, [datum, id_clan])
     return None
 
+
+
+
+def poisci_clana(niz):
+    """
+    Funkcija, ki vrne IDje vseh clanov, katerih ime vsebuje dani niz.
+    >>> poisci_clana('coen')
+    [1053, 1054]
+    """
+    poizvedba = """
+        SELECT id
+        FROM clan
+        WHERE ime LIKE ?
+        ORDER BY ime
+    """
+    idji_clanov = []
+    for (id_clana,) in conn.execute(poizvedba, ['%' + niz + '%']):
+        idji_clanov.append(id_clana)
+    return idji_clanov
+
+
+
+def podatki_clanov(id_clanov):
+    """
+    Vrne osnovne podatke vseh clanov z danimi IDji.
+    >>> podatki_clanov[1053, 1054])
+    [(1053, 'Ethan Coen', 1999), (1054, 'Joel Coen', 2000)]
+    """
+    poizvedba = """
+        SELECT id, ime, priimek, datumRojstva
+        FROM clan
+        WHERE id IN ({})
+    """.format(', '.join('?' for _ in range(len(id_clanov))))
+    return conn.execute(poizvedba, id_clanov).fetchall()
+
+
+
+
+def podatki_clana(id_clana):
+    """
+    Vrne podatke o clanu z danim IDjem.
+    """
+    poizvedba = """
+        SELECT ime, priimek, datumRojstva, clanOd, zadnjiZdravniski FROM clan WHERE id = ?
+    """
+    cur = conn.cursor()
+    cur.execute(poizvedba, [id_clana])
+    osnovni_podatki = cur.fetchone()
+    if osnovni_podatki is None:
+        return None
+    else:
+        ime, = osnovni_podatki
+        poizvedba_za_aktivnosti = """
+            SELECT id, vrsta, zacetek
+            FROM intervencija
+            WHERE id IN ({})
+        """
+        aktivnostiId= poisci_intervencije_in_vaje_clana(id_clana)
+        aktivnosti = conn.execute(poizvedba_za_aktivnosti, aktivnostiId).fetchall()
+        return ime, aktivnosti
+
