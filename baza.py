@@ -2,13 +2,13 @@ import csv
 
 def pobrisi_tabele(conn):
     """Pobriši tabele iz baze."""
-    con.execute("DROP TABLE IF EXISTS clan;")
-    con.execute("DROP TABLE IF EXISTS intervencija;")
-    con.execute("DROP TABLE IF EXISTS vozilo;")
-    con.execute("DROP TABLE IF EXISTS seUporabi;")
-    con.execute("DROP TABLE IF EXISTS sodeluje;")
-    con.execute("DROP TABLE IF EXISTS ida;")
-    con.execute("DROP TABLE IF EXISTS tecaji;")
+    conn.execute("DROP TABLE IF EXISTS clan;")
+    conn.execute("DROP TABLE IF EXISTS intervencija;")
+    conn.execute("DROP TABLE IF EXISTS vozilo;")
+    conn.execute("DROP TABLE IF EXISTS seUporabi;")
+    conn.execute("DROP TABLE IF EXISTS sodeluje;")
+    conn.execute("DROP TABLE IF EXISTS ida;")
+    conn.execute("DROP TABLE IF EXISTS tecaji;")
 
 def ustvari_tabele(conn):
     """Ustvari tabele v bazi."""
