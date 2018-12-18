@@ -40,10 +40,10 @@ def izberi_moznost(moznosti):
 
 
 def izberi_clana():
-    niz = input('Vnesite ime in priimek osebe > ')
+    niz = input('Vnesite ime osebe > ')
     idji_clanov = modeli.poisci_clana(niz)
     moznosti = [
-        ime for _, ime in modeli.podatki_clanov(idji_clanov)
+        ime for _, ime ,_, _, in modeli.podatki_clanov(idji_clanov)
     ]
     izbira = izberi_moznost(moznosti)
     return None if izbira is None else idji_clanov[izbira]
@@ -55,11 +55,14 @@ def prikazi_podatke_clana():
     if id_clana is None:
         print('Nobena oseba ne ustreza iskalnemu nizu. Poskusi znova.')
     else:
-        ime, aktivnosti = modeli.podatki_clana(id_clana)
-        for i in modeli.podatki_clana(id_clana):
-            print(i)
-            print('\n')
-        
+        if len(modeli.poisci_intervencije_in_vaje_clana(id_clana))==0:
+            ime, priimek, datumRojstva, clanOd, zadnjiZdravniski = modeli.podatki_clana(id_clana)
+            print(ime + ' '+ priimek + ', '+ datumRojstva + ', ' + clanOd + ', ' + zadnjiZdravniski)
+        else:
+            ime, priimek, datumRojstva, clanOd, zadnjiZdravniski, aktivnosti = modeli.podatki_clana(id_clana)
+            print(ime + ' '+ priimek + ', '+ datumRojstva + ', ' + clanOd + ', ' + zadnjiZdravniski)
+            for i in aktivnosti:
+                print(i)
 
 def prikazi_podatke_intervencije():
     return None
@@ -81,9 +84,26 @@ def dodaj_clana():
     modeli.dodajClana(ime, priimek, datumRojstva, clanOd, zadnjiZdravniski)
     
 def dodaj_intervencijo():
-    return None
+    zacetek = input('Vnesite datum začetka intervencije > ')
+    zacetekUra = input('Vnesite uro začetka intervencije > ')
+    konec = input('Vnesite datum zaključka intervencije > ')
+    konecUra = input('Vnesite uro zaključka intervencije > ')
+    kraj = input('Vnesite kraj intervencije > ')
+    kilometri = input('Vnesite prevožene kilometre > ')
+    opis = input('Vnesite opis intervencije > ')
+    opomba = input('Vnesite opombo > ')
+
+    modeli.dodajIntervencijo(zacetek, zacetekUra, konec, konecUra, kraj, kilometri, opis, opomba)
+
 def dodaj_vajo():
-    return None
+    zacetek = input('Vnesite datum začetka vaje > ')
+    zacetekUra = input('Vnesite uro začetka vaje > ')
+    konec = input('Vnesite datum zaključka vaje > ')
+    konecUra = input('Vnesite uro zaključka vaje > ')
+    kraj = input('Vnesite kraj vaje > ')
+    kilometri = input('Vnesite prevožene kilometre > ')
+    opis = input('Vnesite opis vaje > ')
+    opomba = input('Vnesite opombo > ')
 def naredi_porocilo():
     return None
         
