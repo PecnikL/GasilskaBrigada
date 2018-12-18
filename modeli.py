@@ -44,7 +44,7 @@ def poisci_intervencije_in_vaje_clana(id_clana):
         FROM sodeluje
         WHERE clan = ?
     """
-    return [id_intervencija for (id_intervencija,) in conn.execute(poizvedba, id_clana)]
+    return [id_intervencija for (id_intervencija,) in conn.execute(poizvedba, [id_clana])]
 
 
 
@@ -280,13 +280,17 @@ def podatki_clana(id_clana):
     if osnovni_podatki is None:
         return None
     else:
-        ime, = osnovni_podatki
+        ime,priimek,datumRojstva,clanOd, zadnjiZdravniski, = osnovni_podatki
         poizvedba_za_aktivnosti = """
             SELECT id, vrsta, zacetek
             FROM intervencija
             WHERE id IN ({})
         """
         aktivnostiId= poisci_intervencije_in_vaje_clana(id_clana)
-        aktivnosti = conn.execute(poizvedba_za_aktivnosti, aktivnostiId).fetchall()
-        return ime, aktivnosti
+        if len(aktivnostiId) ==0:
+            return ime,priimek,datumRojstva,clanOd, zadnjiZdravniski
+        else:
+            aktivnosti = conn.execute(poizvedba_za_aktivnosti, aktivnostiId).fetchall()
+            return ime,priimek,datumRojstva,clanOd, zadnjiZdravniski, aktivnosti
+
 
