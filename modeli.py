@@ -292,9 +292,6 @@ def podatki_clana(id_clana):
             aktivnosti = conn.execute(poizvedba_za_aktivnosti, aktivnostiId).fetchall()
             return ime,priimek,datumRojstva,clanOd, zadnjiZdravniski, aktivnosti
 
-<<<<<<< HEAD
-
-
 
 def poisci_intervencijo(niz):
     """
@@ -309,8 +306,7 @@ def poisci_intervencijo(niz):
         WHERE vrsta = ? AND kraj = ? AND zacetek = ?)
         """
     return conn.execute(poizvedba, ['intervencija', krajInt, datumInt])
-=======
->>>>>>> 7bba11d0c6b997b83a0436fe4b65bfa6352c9b72
+
 
 def poisci_vajo(niz):
     """
