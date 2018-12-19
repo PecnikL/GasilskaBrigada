@@ -93,10 +93,6 @@ def prikazi_podatke_vaje():
         for i in vaja:
             print(i)
 
-def prikazi_podatke_intervencije():
-    return None
-def prikazi_podatke_vaje():
-    return None
 def prikazi_podatke_ida():
     return None
 def prikazi_podatke_vozila():
