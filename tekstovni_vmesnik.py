@@ -64,6 +64,35 @@ def prikazi_podatke_clana():
             for i in aktivnosti:
                 print(i)
 
+
+def izberi_vajo():
+    niz = input('Vnesite kraj in datum vaje >')
+    id_vaje = modeli.poisci_vajo(niz)
+    return id_vaje
+        
+def izberi_intervencijo():
+    niz = input('Vnesite kraj in datum intervencije >')
+    id_intervencije = modeli.poisci_intervencijo(niz)
+    return id_intervencije
+
+def prikazi_podatke_intervencije():
+    id_intervencije = izberi_intervencijo()
+    if id_intervencije is None:
+        print('Ta dan ni bilo intervencije')
+    else:
+        intervencija = model.podatki_intervencije(id_intervencije)
+        for i in intervencija:
+            print(i)
+            
+def prikazi_podatke_vaje():
+    id_vaje = izberi_vajo()
+    if id_vaje is None:
+        print('Ta dan ni bilo vaje')
+    else:
+        vaja = model.podatki_vaje(id_vaje)
+        for i in vaja:
+            print(i)
+
 def prikazi_podatke_intervencije():
     return None
 def prikazi_podatke_vaje():
@@ -89,7 +118,7 @@ def dodaj_intervencijo():
     konec = input('Vnesite datum zaključka intervencije > ')
     konecUra = input('Vnesite uro zaključka intervencije > ')
     kraj = input('Vnesite kraj intervencije > ')
-    kilometri = input('Vnesite prevožene kilometre > ')
+    kilometri = input('Vnesite prevožene kilometre na intervenciji > ')
     opis = input('Vnesite opis intervencije > ')
     opomba = input('Vnesite opombo > ')
 
@@ -101,12 +130,13 @@ def dodaj_vajo():
     konec = input('Vnesite datum zaključka vaje > ')
     konecUra = input('Vnesite uro zaključka vaje > ')
     kraj = input('Vnesite kraj vaje > ')
-    kilometri = input('Vnesite prevožene kilometre > ')
+    kilometri = input('Vnesite prevožene kilometre na vaji > ')
     opis = input('Vnesite opis vaje > ')
     opomba = input('Vnesite opombo > ')
+    modeli.dodajVajo(zacetek, zacetekUra, konec, konecUra, kraj, kilometri, opis, opomba)
+    
 def naredi_porocilo():
     return None
-        
 
 def pokazi_moznosti():
     print(50 * '-')
@@ -151,3 +181,4 @@ def main():
         pokazi_moznosti()
 
 main()
+
