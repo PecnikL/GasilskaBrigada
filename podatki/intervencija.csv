@@ -1,6 +1,6 @@
-﻿vrsta,zacetek,zacetekUra,konec,konecUra,opomba,opis,kraj,kilometri
-intervencija,1.12.2018,16:30,1.12.2018,18:00, ,Požar kurilnice,Hrušica 200,2,1.12.2018,16:30,1.12.2018,18:00,,Požar kurilnice,Hrušica 200,2
-vaja,16.12.2018,18:00,16.12.2018,19.30,,Vaja v gasilskem domu,Hrušica 10,0
-intervencija,11.10.2018,13:00,11.10.2018,18:00,,Iskalna akcija,Hrušica,5
-intervencija,15.11.2018,15:00,15.11.2018,17:00,,Požar poslopja,Hrušica 29,1
-vaja,20.09.2017,18:00,20.09.2017,20:00,,Taktična vaja v objektu za uničenje,Blejska Dobrava 45,10
+﻿vrsta;zacetek;zacetekUra;konec;konecUra;opomba;opis;kraj;kilometri
+intervencija;1.12.2018;16:30;1.12.2018;18:00;Požar;kurilnice;Hrušica 200;2
+vaja;16.12.2018;18:00;16.12.2018;19.30;Vaja v gasilskem domu;Hrušica 10;0
+intervencija;11.10.2018;13:00;11.10.2018;18:00;;Iskalna akcija;Hrušica;5
+intervencija;15.11.2018;15:00;15.11.2018;17:00;;Požar poslopja;Hrušica 29;1
+vaja;20.09.2017;18:00;20.09.2017;20:00;;Taktična vaja v objektu za uničenje;Blejska Dobrava 45;10
