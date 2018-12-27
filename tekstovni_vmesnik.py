@@ -71,18 +71,26 @@ def izberi_vajo():
     return id_vaje
         
 def izberi_intervencijo():
-    niz = input('Vnesite kraj in datum intervencije >')
-    id_intervencije = modeli.poisci_intervencijo(niz)
-    return id_intervencije
+    kraj = input('Vnesite kraj intervencije >')
+    datum = input('Vnesite datum intervencije >')
+    id_intervencije = modeli.poisci_intervencijo(kraj, datum)
+    moznosti = [
+        id1 for id1, _, _ ,_, _, in modeli.podatki_intervencij(id_intervencije)
+    ]
+    izbira = izberi_moznost(moznosti)
+    return None if izbira is None else id_intervencije[izbira]
+
+
 
 def prikazi_podatke_intervencije():
     id_intervencije = izberi_intervencijo()
+
     if id_intervencije is None:
-        print('Ta dan ni bilo intervencije')
+        print('Nobena intervencija ne ustreza danim podatkom.')
     else:
-        intervencija = model.podatki_intervencije(id_intervencije)
-        for i in intervencija:
-            print(i)
+        intervencija = modeli.podatki_intervencije(id_intervencije)
+        id1, vrsta, zacetek, zacetekUra, konec, konecUra, opomba, opis, kraj, kilometri=intervencija
+        print(str(id1) + " " + vrsta + " " + zacetek + " " + zacetekUra + " " + konec + " " + konecUra + " " + opomba + " " + opis + " " +  kraj + " " + str(kilometri))
             
 def prikazi_podatke_vaje():
     id_vaje = izberi_vajo()

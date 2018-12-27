@@ -293,19 +293,51 @@ def podatki_clana(id_clana):
             return ime,priimek,datumRojstva,clanOd, zadnjiZdravniski, aktivnosti
 
 
-def poisci_intervencijo(niz):
+def poisci_intervencijo(kraj, datum):
     """
     Funkcija vrne id intervencije
-    Niz je oblike: kraj + " " + datum 
     """
-    krajInt = niz.split(" ")[0]
-    datumInt = niz.split(" ")[1]
     poizvedba = """
         SELECT id
         FROM intervencija
-        WHERE vrsta = ? AND kraj = ? AND zacetek = ?)
+        WHERE (vrsta = ?) AND (kraj LIKE ?) AND (zacetek LIKE ?)
+    """
+    idji_intervencij = []
+    for (id_intervencije,) in conn.execute(poizvedba, ['intervencija', '%' + kraj + '%','%' + datum + '%' ]):
+        idji_intervencij.append(id_intervencije)
+    return idji_intervencij
+
+def podatki_intervencij(id_intervencij):
+    """
+    Vrne osnovne podatke vseh intervencij z danimi IDji.
+    """
+    poizvedba = """
+        SELECT id, zacetek,konec, opis, kraj
+        FROM intervencija
+        WHERE id IN ({})
+    """.format(', '.join('?' for _ in range(len(id_intervencij))))
+    return conn.execute(poizvedba, id_intervencij).fetchall()
+
+
+def podatki_intervencije(idInterv):
+    """
+    Vrne vse podatke intervencije.
+    """
+    poizvedba = """
+        SELECT *
+        FROM intervencija
+        WHERE id = ?
         """
-    return conn.execute(poizvedba, ['intervencija', krajInt, datumInt])
+    cur = conn.cursor()
+    cur.execute(poizvedba, [idInterv])
+    osnovni_podatki = cur.fetchone()
+    if osnovni_podatki is None:
+        return None
+    id1, vrsta, zacetek, zacetekUra, konec, konecUra, opomba, opis, kraj, kilometri = osnovni_podatki
+    return id1, vrsta, zacetek, zacetekUra, konec, konecUra, opomba, opis, kraj, kilometri
+
+
+
 
 
 def poisci_vajo(niz):
@@ -318,12 +350,13 @@ def poisci_vajo(niz):
     poizvedba = """
         SELECT id
         FROM intervencija
-        WHERE vrsta = ? AND kraj = ? AND zacetek = ?)
+        WHERE vrsta = ? AND kraj = ? AND zacetek = ?
         """
     return conn.execute(poizvedba, ['vaja', krajInt, datumInt])
 
 
-def podatki_intervencije(idInterv):
-    return None
+
+
+
 def podatki_vaje(idVaje):
     return None
