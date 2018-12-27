@@ -1,12 +1,12 @@
-﻿naziv
-tečaj za NGČ
-tečaj za GČ
-tečaj za strojnika
-tečaj za informatika
-tečaj za mentorja mladine
-tečaj za sodnika
-tečaj IDA
-tečaj GNPA
-tečaj TRE
-tečaj GNO
-tečaj za VGČ
+﻿id,naziv
+1,tečaj za NGČ
+2,tečaj za GČ
+3,tečaj za strojnika
+4,tečaj za informatika
+5,tečaj za mentorja mladine
+6,tečaj za sodnika
+7,tečaj IDA
+8,tečaj GNPA
+9,tečaj TRE
+10,tečaj GNO
+11,tečaj za VGČ

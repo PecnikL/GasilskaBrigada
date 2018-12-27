@@ -14,7 +14,7 @@ def ustvari_tabele(conn):
     """Ustvari tabele v bazi."""
     conn.execute("""
                  CREATE TABLE clan(
-                     id    INTEGER PRIMARY KEY AUTOINCREMENT,
+                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                      ime   TEXT,
                      priimek TEXT,
                      datumRojstva TEXT,
@@ -65,7 +65,7 @@ def ustvari_tabele(conn):
                 """)
     conn.execute("""
                 CREATE TABLE tecaji (
-                    id IINTEGER PRIMARY KEY AUTOINCREMENT,
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
                     naziv TEXT
                     );
                 """)
@@ -108,7 +108,7 @@ def uvozi_intervencije(conn):
         for vrstica in podatki:
             conn.execute(poizvedba, vrstica)
 
-def uvozi_itecaji(conn):
+def uvozi_tecaji(conn):
     """Uvozi podatke o tecajih."""
     conn.execute("DELETE FROM tecaji;")
     with open('podatki/tecaji.csv') as datoteka:
@@ -128,7 +128,7 @@ def ustvari_bazo(conn):
     uvozi_clane(conn)
     uvozi_vozila(conn)
     uvozi_intervencije(conn)
-    vozi_tecaji(conn)
+    uvozi_tecaji(conn)
 
 def ustvari_bazo_ce_ne_obstaja(conn):
     """Ustvari bazo, če ta še ne obstaja."""
