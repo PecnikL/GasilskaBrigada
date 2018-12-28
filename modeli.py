@@ -340,23 +340,54 @@ def podatki_intervencije(idInterv):
 
 
 
-def poisci_vajo(niz):
+def poisci_vajo(kraj, datum):
     """
-    Funkcija vrne id intervencije
-    Niz je oblike: kraj + " " + datum 
+    Funkcija vrne id vaje
     """
-    krajInt = niz.split(" ")[0]
-    datumInt = niz.split(" ")[1]
     poizvedba = """
         SELECT id
         FROM intervencija
-        WHERE vrsta = ? AND kraj = ? AND zacetek = ?
-        """
-    return conn.execute(poizvedba, ['vaja', krajInt, datumInt])
+        WHERE (vrsta = ?) AND (kraj LIKE ?) AND (zacetek LIKE ?)
+    """
+    idji_vaj = []
+    for (id_vaje,) in conn.execute(poizvedba, ['vaja', '%' + kraj + '%','%' + datum + '%' ]):
+        idji_vaj.append(id_vaje)
+    return idji_vaj
 
-
-
-
+def podatki_vaj(id_vaj):
+    """
+    Vrne osnovne podatke vseh vaj z danimi IDji.
+    """
+    poizvedba = """
+        SELECT id, zacetek,konec, opis, kraj
+        FROM intervencija
+        WHERE id IN ({})
+    """.format(', '.join('?' for _ in range(len(id_vaj))))
+    return conn.execute(poizvedba, id_vaj).fetchall()
 
 def podatki_vaje(idVaje):
-    return None
+    """
+    Vrne vse podatke vaje.
+    """
+    poizvedba = """
+        SELECT *
+        FROM intervencija
+        WHERE id = ?
+        """
+    cur = conn.cursor()
+    cur.execute(poizvedba, [idVaje])
+    osnovni_podatki = cur.fetchone()
+    if osnovni_podatki is None:
+        return None
+    id1, vrsta, zacetek, zacetekUra, konec, konecUra, opomba, opis, kraj, kilometri = osnovni_podatki
+    return id1, vrsta, zacetek, zacetekUra, konec, konecUra, opomba, opis, kraj, kilometri
+
+def dodajUporaboIda(clan, intervencija):
+    '''V tabelo seUporabi doda podatek o uporabi ida'''
+    poizvedba = """
+        INSERT INTO ida
+        (clan, intervencija)
+        VALUES (?, ?)
+    """
+    with conn:
+        conn.execute(poizvedba ,[clan, intervencija])

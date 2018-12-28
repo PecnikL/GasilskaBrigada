@@ -66,9 +66,14 @@ def prikazi_podatke_clana():
 
 
 def izberi_vajo():
-    niz = input('Vnesite kraj in datum vaje >')
-    id_vaje = modeli.poisci_vajo(niz)
-    return id_vaje
+    kraj = input('Vnesite kraj vaje >')
+    datum = input('Vnesite datum vaje >')
+    id_vaj = modeli.poisci_vajo(kraj, datum)
+    moznosti = [
+        id1 for id1, _, _ ,_, _, in modeli.podatki_vaj(id_vaj)
+    ]
+    izbira = izberi_moznost(moznosti)
+    return None if izbira is None else id_vaj[izbira]
         
 def izberi_intervencijo():
     kraj = input('Vnesite kraj intervencije >')
@@ -79,7 +84,6 @@ def izberi_intervencijo():
     ]
     izbira = izberi_moznost(moznosti)
     return None if izbira is None else id_intervencije[izbira]
-
 
 
 def prikazi_podatke_intervencije():
@@ -94,13 +98,14 @@ def prikazi_podatke_intervencije():
             
 def prikazi_podatke_vaje():
     id_vaje = izberi_vajo()
-    if id_vaje is None:
-        print('Ta dan ni bilo vaje')
-    else:
-        vaja = model.podatki_vaje(id_vaje)
-        for i in vaja:
-            print(i)
 
+    if id_vaje is None:
+        print('Nobena vaja ne ustreza danim podatkom.')
+    else:
+        vaja = modeli.podatki_vaje(id_vaje)
+        id1, vrsta, zacetek, zacetekUra, konec, konecUra, opomba, opis, kraj, kilometri=vaja
+        print(str(id1) + " " + vrsta + " " + zacetek + " " + zacetekUra + " " + konec + " " + konecUra + " " + opomba + " " + opis + " " +  kraj + " " + str(kilometri))
+        
 def prikazi_podatke_ida():
     return None
 def prikazi_podatke_vozila():
@@ -138,6 +143,20 @@ def dodaj_vajo():
     opis = input('Vnesite opis vaje > ')
     opomba = input('Vnesite opombo > ')
     modeli.dodajVajo(zacetek, zacetekUra, konec, konecUra, kraj, kilometri, opis, opomba)
+
+def dodaj_uporabo_ida():
+    print('Podatki clana:')
+    id_clana = izberi_clana()
+    if id_clana is None:
+        print('Nobena oseba ne ustreza iskalnemu nizu. Poskusi znova.')
+    else:
+        print('Podatki intervencije:')
+        id_intervencije = izberi_intervencijo()
+        if id_intervencije is None:
+            print('Nobena intervencija ne ustreza danim podatkom.')
+        else:
+            modeli.dodajUporaboIda(id_clana, id_intervencije)
+
     
 def naredi_porocilo():
     return None
@@ -153,6 +172,7 @@ def pokazi_moznosti():
         'Dodaj nove člane',
         'Dodaj intervencije',
         'Dodaj vaje',
+        'Dodaj uporabo ida',
         'Naredi poročilo preteklega leta',
         'Izhod'
         
@@ -174,6 +194,8 @@ def pokazi_moznosti():
     elif izbira == 7:
         dodaj_vajo()
     elif izbira == 8:
+        dodaj_uporabo_ida()
+    elif izbira == 9:
         naredi_porocilo()
     else:
         print('Nasvidenje!')
