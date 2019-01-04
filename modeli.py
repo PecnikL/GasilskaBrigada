@@ -34,7 +34,18 @@ def stevilo_tecajev():
 
 
 
+def vsi_clani():
+    """
+    Fukcija vrne vse člane PGD Hrušica.
+    """
+    poizvedba = """
+        SELECT id, ime, priimek, datumRojstva, clanOd, zadnjiZdravniski
+        FROM clan
+    """
+    clani = conn.execute(poizvedba).fetchall()
+    return clani
 
+    
 def poisci_intervencije_in_vaje_clana(id_clana):
     """
     Funkcija, ki poišče vse intervencije in vaje, ki se jih je udeležil član.
