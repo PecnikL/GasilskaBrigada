@@ -45,6 +45,31 @@ def vsi_clani():
     clani = conn.execute(poizvedba).fetchall()
     return clani
 
+def vse_intervencije():
+    """
+    Fukcija vrne vse intervencije PGD Hrušica.
+    """
+    poizvedba = """
+        SELECT zacetek, zacetekUra, konec, konecUra, kraj
+        FROM intervencija
+        WHERE vrsta = ?
+    """
+    intervencije = conn.execute(poizvedba, ['intervencija']).fetchall()
+    return intervencije
+
+
+def vse_vaje():
+    """
+    Fukcija vrne vse vaje PGD Hrušica.
+    """
+    poizvedba = """
+        SELECT zacetek, zacetekUra, konec, konecUra, kraj
+        FROM intervencija
+        WHERE vrsta = ?
+    """
+    vaje = conn.execute(poizvedba, ['vaja']).fetchall()
+    return vaje
+
     
 def poisci_intervencije_in_vaje_clana(id_clana):
     """
@@ -101,6 +126,8 @@ def poisci_sodelujoce_v_interveniji(id_intervencija):
 
 
 
+
+
 def id_clana(oseba, ustvari_ce_ne_obstaja=False):
     """
     Vrne ID podane osebe. Če oseba ne obstaja, jo doda v bazo
@@ -138,7 +165,35 @@ def dodajIntervencijo(zacetek,zacetekUra, konec, konecUra, kraj, kilometri, opis
         conn.execute(poizvedba ,['intervencija', zacetek, zacetekUra, konec, konecUra, opomba, opis, kraj, kilometri])
 
 
+def vsi_kraji_intervencij():
+    """
+    Funkcija izpiše vse kraje, kjer so potekale intervencije.
+    """
+    seznam_krajev = []
 
+    poizvedba = """
+        SELECT DISTINCT kraj 
+        FROM intervencija
+        WHERE vrsta = ? 
+    """
+    for (kraj,) in conn.execute(poizvedba, ["intervencija"]):
+        seznam_krajev.append(kraj)
+    return seznam_krajev
+
+def vsi_kraji_vaj():
+    """
+    Funkcija izpiše vse kraje, kjer so potekale vaje.
+    """
+    seznam_krajev = []
+
+    poizvedba = """
+        SELECT DISTINCT kraj 
+        FROM intervencija
+        WHERE vrsta = ? 
+    """
+    for (kraj,) in conn.execute(poizvedba, ["vaja"]):
+        seznam_krajev.append(kraj)
+    return seznam_krajev
 
 
 def dodajVajo(zacetek,zacetekUra, konec, konecUra, kraj, kilometri, opis, opomba):

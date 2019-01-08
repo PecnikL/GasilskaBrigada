@@ -1,9 +1,9 @@
 % rebase('osnovna_stran')
 
 <h1 class="title">
-	Podatki člana:
+	Podatki intervencije:
 </h1>
 
 <h2 class="subtitle">
-	{{ime}} {{priimek}}
+	
 </h2>

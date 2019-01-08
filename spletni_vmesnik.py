@@ -19,18 +19,48 @@ def clani(id1=None):
             clani = clani
         )
     else:
-        ime,priimek,datumRojstva,clanOd, zadnjiZdravniski = modeli.podatki_clana(int(id1))
-        return template(
-            'clan',
-             podatki_clana = ime
-        )
+        if len(modeli.podatki_clana(int(id1))) == 5:
+            ime,priimek,datumRojstva,clanOd, zadnjiZdravniski = modeli.podatki_clana(int(id1))
+            return template(
+                'clan',
+                ime = ime,
+                priimek = priimek,
+                datumRojstva = datumRojstva,
+                clanOd = clanOd,
+                zadnjiZdravniski = zadnjiZdravniski
+            )
      
+@get('/intervencije')
+@get('/intervencije/<id1>/')
+def intervencije(id1 = None):
+    kraji = modeli.vsi_kraji_intervencij()
+    interv = modeli.vse_intervencije()
+    if id1 == None:
+        return template(
+            'intervencije',
+            kraji = kraji,
+            interv = interv
+        )
+    else:
+        return template(
+            'intervencija'
+        )
 
 
 @get('/prijava')
 def prijava():
     return template(
             'prijava',
+            geslo = None,
+            uporabnik = None
         )
+
+
+@get('/registracija')
+def registracija():
+    return template(
+            'registracija',
+        )
+
 
 run(debug= True)
