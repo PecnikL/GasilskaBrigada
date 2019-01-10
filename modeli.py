@@ -7,6 +7,20 @@ conn.execute("PRAGMA foreign_keys = ON")
 
 import time
 
+def uporabnik_baze(geslo, uporabnik):
+    """
+    Funkcija preveri, ali je uporabnik z danim uporabniskim imenom in geslom
+    v bazi uporabnik_baze.
+    """
+    poizvedba = """
+        SELECT COUNT(*)
+        FROM uporabnik_baze
+        WHERE id = ? AND uporabnik = ?
+    """
+    (st_uporabnikov,)= conn.execute(poizvedba, [geslo, uporabnik]).fetchone()
+    return st_uporabnikov==1
+    
+
 def stevilo_clanov():
     poizvedba = """
         SELECT COUNT(*)
@@ -352,11 +366,12 @@ def podatki_clana(id_clana):
             WHERE id IN ({})
         """
         aktivnostiId= poisci_intervencije_in_vaje_clana(id_clana)
-        if len(aktivnostiId) ==0:
+        if len(aktivnostiId) == None:
             return ime,priimek,datumRojstva,clanOd, zadnjiZdravniski
         else:
-            aktivnosti = conn.execute(poizvedba_za_aktivnosti, aktivnostiId).fetchall()
-            return ime,priimek,datumRojstva,clanOd, zadnjiZdravniski, aktivnosti
+            
+            #aktivnosti = conn.execute(poizvedba_za_aktivnosti, aktivnostiId).fetchall()
+            return ime,priimek,datumRojstva,clanOd, zadnjiZdravniski, aktivnostiId
 
 
 def poisci_intervencijo(kraj, datum):

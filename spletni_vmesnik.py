@@ -29,6 +29,17 @@ def clani(id1=None):
                 clanOd = clanOd,
                 zadnjiZdravniski = zadnjiZdravniski
             )
+        elif len(modeli.podatki_clana(int(id1))) == 6:
+            ime,priimek,datumRojstva,clanOd, zadnjiZdravniski, aktivnosti = modeli.podatki_clana(int(id1))
+            return template(
+                'clan',
+                ime = ime,
+                priimek = priimek,
+                datumRojstva = datumRojstva,
+                clanOd = clanOd,
+                zadnjiZdravniski = zadnjiZdravniski,
+                aktivnosti = aktivnosti
+            )
      
 @get('/intervencije')
 @get('/intervencije/<id1>/')
@@ -52,7 +63,7 @@ def prijava():
     return template(
             'prijava',
             geslo = None,
-            uporabnik = None
+            uporabnik = None,
         )
 
 

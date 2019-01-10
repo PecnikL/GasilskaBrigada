@@ -9,6 +9,8 @@ def pobrisi_tabele(conn):
     conn.execute("DROP TABLE IF EXISTS sodeluje;")
     conn.execute("DROP TABLE IF EXISTS ida;")
     conn.execute("DROP TABLE IF EXISTS tecaji;")
+    conn.execute("DROP TABLE IF EXISTS uporabnik_baze;")
+    conn.execute("DROP TABLE IF EXISTS sodeluje;")
 
 def ustvari_tabele(conn):
     """Ustvari tabele v bazi."""
@@ -69,7 +71,12 @@ def ustvari_tabele(conn):
                     naziv TEXT
                     );
                 """)
-
+    conn.execute("""
+                CREATE TABLE uporabnik_baze (
+                    id TEXT PRIMARY KEY,
+                    uporabnik TEXT
+                    );
+                """)
 
 def uvozi_clane(conn):
     """Uvozi podatke o članih."""
@@ -120,6 +127,29 @@ def uvozi_tecaji(conn):
         for vrstica in podatki:
             conn.execute(poizvedba, vrstica)
 
+def uvozi_uporabnike_baze(conn):
+    """Uvozi uporabnike baze"""
+    conn.execute("DELETE FROM uporabnik_baze;")
+    with open('podatki/uporabnik_baze.csv') as datoteka:
+        podatki = csv.reader(datoteka)
+        stolpci = next(podatki)
+        poizvedba = """
+            INSERT INTO uporabnik_baze VALUES ({})
+        """.format(', '.join(["?"] * len(stolpci)))
+        for vrstica in podatki:
+            conn.execute(poizvedba, vrstica)
+
+def uvozi_sodeluje(conn):
+    """Uvozi podatke v tabelo sodeluje"""
+    conn.execute("DELETE FROM sodeluje;")
+    with open('podatki/sodeluje.csv') as datoteka:
+        podatki = csv.reader(datoteka)
+        stolpci = next(podatki)
+        poizvedba = """
+            INSERT INTO sodeluje VALUES ({})
+        """.format(', '.join(["?"] * len(stolpci)))
+        for vrstica in podatki:
+            conn.execute(poizvedba, vrstica)
 
 def ustvari_bazo(conn):
     """Opravi celoten postopek postavitve baze."""
@@ -129,6 +159,8 @@ def ustvari_bazo(conn):
     uvozi_vozila(conn)
     uvozi_intervencije(conn)
     uvozi_tecaji(conn)
+    uvozi_uporabnike_baze(conn)
+    uvozi_sodeluje(conn)
 
 def ustvari_bazo_ce_ne_obstaja(conn):
     """Ustvari bazo, če ta še ne obstaja."""

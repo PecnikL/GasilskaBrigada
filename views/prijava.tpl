@@ -26,3 +26,12 @@
   </p>
 </div>
 
+
+<div class="field is-grouped">
+  <div class="control">
+    <button class="button is-link">Prijava</button>
+  </div>
+  <div class="control">
+    <button class="button is-text">Prekliči</button>
+  </div>
+</div>

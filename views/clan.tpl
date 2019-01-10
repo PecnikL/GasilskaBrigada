@@ -7,3 +7,5 @@
 <h2 class="subtitle">
 	{{ime}} {{priimek}}
 </h2>
+
+{{aktivnosti}}
