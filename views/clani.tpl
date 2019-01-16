@@ -1,6 +1,14 @@
 % rebase('osnovna_stran')
 
+
+<div class = "columns">
+<div class = "column is-four-fifth">
 <h1 class ="title"> Trenutno je v bazi {{ st_clanov }} članov: </h1>
+
+<form action="iskanje-clanov/" method ="get" _lpchecked="1">
+	<input type="text" name="ime_priimek" value="">
+	<input type="submit" value="išči">
+</form>
 
 ( Ime Priimek, datum rojstva, član od, zadnji zdravniški )
 
@@ -14,3 +22,12 @@
 	%end
 
 </ol>
+
+
+<a href = '/dodaj-clana/'>
+	Dodaj člana
+</a>
+
+
+</div>
+</div>

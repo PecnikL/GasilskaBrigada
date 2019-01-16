@@ -73,8 +73,8 @@ def ustvari_tabele(conn):
                 """)
     conn.execute("""
                 CREATE TABLE uporabnik_baze (
-                    id TEXT PRIMARY KEY,
-                    uporabnik TEXT
+                    uporabnik TEXT PRIMARY KEY,
+                    geslo TEXT
                     );
                 """)
 

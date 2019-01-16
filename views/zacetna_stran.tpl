@@ -1,6 +1,4 @@
-
-% rebase('osnovna_stran')
-
+% rebase('osnovna_stran_zacetek')
 
 
 

@@ -1,16 +1,37 @@
-from bottle import get, run, template
+from bottle import get,post, run, template
 import modeli
+import bottle
+import hashlib
+
+SKRIVNOST = 'skriv'
+
+def prijavljen_uporabnik():
+    return bottle.request.get_cookie('prijavljen', secret=SKRIVNOST) == 'da'
+
 
 @get('/')
-def glavna_stran():
+def zacetna_stran():
     
     return template(
-        'glavna_stran',
+        'zacetna_stran',
+    )
+
+
+@get('/izbira')
+def izbira():
+    if not prijavljen_uporabnik():
+        raise bottle.HTTPError(401)
+    
+    return template(
+        'izbira'
     )
 
 @get('/clani')
 @get('/clani/<id1>/')
 def clani(id1=None):
+    if not prijavljen_uporabnik():
+        raise bottle.HTTPError(401)
+    
     if id1 == None:
         clani = modeli.vsi_clani()
         return template(
@@ -19,31 +40,68 @@ def clani(id1=None):
             clani = clani
         )
     else:
-        if len(modeli.podatki_clana(int(id1))) == 5:
-            ime,priimek,datumRojstva,clanOd, zadnjiZdravniski = modeli.podatki_clana(int(id1))
-            return template(
-                'clan',
-                ime = ime,
-                priimek = priimek,
-                datumRojstva = datumRojstva,
-                clanOd = clanOd,
-                zadnjiZdravniski = zadnjiZdravniski
+        ime,priimek,datumRojstva,clanOd, zadnjiZdravniski, aktivnosti = modeli.podatki_clana(int(id1))
+        return template(
+            'clan',
+            ime = ime,
+            priimek = priimek,
+            datumRojstva = datumRojstva,
+            clanOd = clanOd,
+            zadnjiZdravniski = zadnjiZdravniski,
+            aktivnosti = aktivnosti
             )
-        elif len(modeli.podatki_clana(int(id1))) == 6:
-            ime,priimek,datumRojstva,clanOd, zadnjiZdravniski, aktivnosti = modeli.podatki_clana(int(id1))
-            return template(
-                'clan',
-                ime = ime,
-                priimek = priimek,
-                datumRojstva = datumRojstva,
-                clanOd = clanOd,
-                zadnjiZdravniski = zadnjiZdravniski,
-                aktivnosti = aktivnosti
-            )
-     
+
+@get('/iskanje-clanov/')
+def iskanje_clanov():
+    if not prijavljen_uporabnik():
+        raise bottle.HTTPError(401)
+    niz = bottle.request.query.ime_priimek
+    clani_id = modeli.poisci_clana(niz)
+    clani = modeli.podatki_clanov(clani_id)
+    return template(
+        'rezultati_iskanja_clanov',
+        clani = clani
+        )   
+    
+
+@get('/dodaj-clana/')
+def dodaj_clana():
+    if not prijavljen_uporabnik():
+        raise bottle.HTTPError(401)
+    return template(
+        'dodaj_clana',
+        ime = "",
+        priimek = "",
+        datumRojstva = "",
+        clanOd = "",
+        zadnjiZdravniski=""
+        )
+@post('/dodaj-clana/')
+def dodajanje_clana():
+    if not prijavljen_uporabnik():
+        raise bottle.HTTPError(401)
+    try:
+        id = modeli.dodajClana(ime = bottle.request.forms.ime,
+                               priimek = bottle.request.forms.priimek,
+                               datumRojstva = bottle.request.forms.datumRojstva,
+                               clanOd = bottle.request.forms.clanOd,
+                               zadnjiZdravniski = bottle.request.forms.zadnjiZdravniski)
+    except:
+        return template('dodaj_clana',
+                        ime = bottle.request.forms.ime,
+                        priimek = bottle.request.forms.priimek,
+                        datumRojstva = bottle.request.forms.datumRojstva,
+                        clanOd = bottle.request.forms.clanOd,
+                        zadnjiZdravniski = bottle.request.forms.zadnjiZdravniski)
+
+    bottle.redirect('/clani')
+
+    
 @get('/intervencije')
 @get('/intervencije/<id1>/')
 def intervencije(id1 = None):
+    if not prijavljen_uporabnik():
+        raise bottle.HTTPError(401)
     kraji = modeli.vsi_kraji_intervencij()
     interv = modeli.vse_intervencije()
     if id1 == None:
@@ -62,16 +120,55 @@ def intervencije(id1 = None):
 def prijava():
     return template(
             'prijava',
-            geslo = None,
-            uporabnik = None,
+            geslo = "",
+            uporabnik = "",
         )
+@post('/prijava')
+def prijava():
+    nazaj = bottle.request.POST.get('Nazaj')
+    if nazaj is not None:
+        bottle.redirect('/')
+    
+    prijavljen = modeli.uporabnik_baze(geslo = bottle.request.forms.geslo,
+                                       uporabnik = bottle.request.forms.uporabnik)
+    if prijavljen:
+        bottle.response.set_cookie(
+            'prijavljen', 'da', secret=SKRIVNOST, path='/')
+        bottle.redirect('/izbira' )
+    else:
+        raise bottle.HTTPError(403, "Napačno geslo ali uporabniško ime!")
 
+@get('/odjava/')
+def odjava():
+    bottle.response.set_cookie('prijavljen', '', path='/')
+    bottle.redirect('/')    
 
 @get('/registracija')
 def registracija():
     return template(
             'registracija',
+            ime = "",
+            priimek = "",
+            datumRojstva= "",
+            naslov = "",
+            email = "",
+            uporabniskoIme= "",
+            geslo = "",
+            sporocilo = "",
+            vrednost = ""
         )
+@post('/registracija')
+def registracija():
+    nazaj = bottle.request.POST.get('Nazaj')
+    if nazaj is not None:
+        bottle.redirect('/')
+        
+    if not modeli.uporabnik_baze(bottle.request.forms.geslo, bottle.request.forms.uporabnik):
+         modeli.dodaj_uporabnika_baze(geslo = bottle.request.forms.geslo,
+                               uporabnik = bottle.request.forms.uporabnik)
+    
+    bottle.redirect('/prijava')
+    
 
 
 run(debug= True)

@@ -1,12 +1,14 @@
-% rebase('osnovna_stran')
+% rebase('osnovna_stran_zacetek')
+
 
 <h1 class ="title">Prijava v bazo PGD Hrušica.</h1>
 
+<form action="prijava" method = "post">
 
 <div class="field">
   <label class="label">Uporabniško ime</label>
   <div class="control has-icons-left has-icons-right">
-    <input class="input" type="text" placeholder="Text input" value="">
+    <input class="input" type="text" placeholder="Text input" name = "uporabnik" value="{{uporabnik}}">
     <span class="icon is-small is-left">
       <i class="fas fa-user"></i>
     </span>
@@ -29,9 +31,11 @@
 
 <div class="field is-grouped">
   <div class="control">
-    <button class="button is-link">Prijava</button>
+    <button class="button is-link" type = "submit" value="Prijavi se">Prijava</button>
   </div>
   <div class="control">
-    <button class="button is-text">Prekliči</button>
+    <button class="button is-text" type = "submit" name = "Nazaj" value="Nazaj">Prekliči</button>
   </div>
 </div>
+
+</form>

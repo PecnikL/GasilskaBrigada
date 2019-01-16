@@ -69,6 +69,8 @@ input[type=submit] {
 </style>
 </head>     
 <body>
+
+
 <h2 class ="title is-2">Intervencije PGD Hrušica</h2>
 
 <h3 class ="title is-3">Pretekle intervencije</h3>

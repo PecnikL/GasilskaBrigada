@@ -15,11 +15,15 @@ def uporabnik_baze(geslo, uporabnik):
     poizvedba = """
         SELECT COUNT(*)
         FROM uporabnik_baze
-        WHERE id = ? AND uporabnik = ?
+        WHERE uporabnik = ? AND geslo = ?
     """
-    (st_uporabnikov,)= conn.execute(poizvedba, [geslo, uporabnik]).fetchone()
+    (st_uporabnikov,)= conn.execute(poizvedba, [uporabnik, geslo]).fetchone()
     return st_uporabnikov==1
     
+def dodaj_uporabnika_baze(geslo, uporabnik):
+    if not uporabnik_baze(geslo, uporabnik):
+        poizvedba = "INSERT INTO uporabnik_baze (uporabnik, geslo) VALUES (?,?)"
+        return conn.execute(poizvedba,[uporabnik, geslo]).lastrowid
 
 def stevilo_clanov():
     poizvedba = """
@@ -163,7 +167,7 @@ def dodajClana(ime, priimek, datumRojstva, clanOd, zadnjiZdravniski):
     """
     V bazo doda novega člana.
     """
-    return conn.execute("INSERT INTO clan (ime,priimek, datumRojstva, clanOd, zadnjiZdravniski) VALUES (?,?,?,?,?)", [ime,priimek, datumRojstva, clanOd, zadnjiZdravniski]).lastrowid
+    return conn.execute("INSERT INTO clan (ime,priimek, datumRojstva, clanOd, zadnjiZdravniski VALUES (?,?,?,?,?)", [ime,priimek, datumRojstva, clanOd, zadnjiZdravniski]).lastrowid
     
 
 
@@ -366,8 +370,8 @@ def podatki_clana(id_clana):
             WHERE id IN ({})
         """
         aktivnostiId= poisci_intervencije_in_vaje_clana(id_clana)
-        if len(aktivnostiId) == None:
-            return ime,priimek,datumRojstva,clanOd, zadnjiZdravniski
+        if aktivnostiId == None:
+            return ime,priimek,datumRojstva,clanOd, zadnjiZdravniski, []
         else:
             
             #aktivnosti = conn.execute(poizvedba_za_aktivnosti, aktivnostiId).fetchall()
