@@ -11,9 +11,10 @@ def prijavljen_uporabnik():
 
 @get('/')
 def zacetna_stran():
-    
+    if prijavljen_uporabnik():
+        bottle.redirect('/izbira')
     return template(
-        'zacetna_stran',
+        'zacetna_stran'
     )
 
 

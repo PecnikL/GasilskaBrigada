@@ -1,8 +1,6 @@
 % rebase('osnovna_stran')
 
 
-<h1 class ="title"> Baza PGD Hrušica </h1>
-
 <div class = "columns">
 <div class = "column is-one-fifth">
 <aside class="menu">
@@ -10,14 +8,14 @@
     Člani
   </p>
   <ul class="menu-list">
-    <li><a class="is-active">Vsi člani</a></li>
-	<li><a>Dodaj člana</a></li>
+    <li><a href= "/clani">Vsi člani</a></li>
+	<li><a href = /dodaj-clana/>Dodaj člana</a></li>
   </ul>
   <p class="menu-label">
     Intervencije
   </p>
   <ul class="menu-list">
-    <li><a>Vse intervencije</a></li>
+    <li><a href = "/intervencije">Vse intervencije</a></li>
     <li><a>Dodaj intervencijo</a></li>
   </ul>
   <p class="menu-label">
@@ -57,5 +55,7 @@
   </ul>
 </aside>
 </div>
-<div class ="column"> </div>
+<div class ="column">
+	<h1 class ="title"> Baza PGD Hrušica </h1>
+ </div>
 </div>
