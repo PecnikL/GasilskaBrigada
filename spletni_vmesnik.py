@@ -116,6 +116,48 @@ def intervencije(id1 = None):
             'intervencija'
         )
 
+@get('/dodaj-intervencijo/')
+def dodaj_intervencijo():
+    if not prijavljen_uporabnik():
+        raise bottle.HTTPError(401)
+    return template(
+        'dodaj_intervencijo',
+        zacetek = "",
+        zacetekUra = "",
+        konec = "",
+        konecUra = "",
+        opomba = "",
+        opis = "",
+        kraj = "",
+        kilometri = ""
+        )
+@post('/dodaj-intervencijo/')
+def dodajanje_intervencije():
+    if not prijavljen_uporabnik():
+        raise bottle.HTTPError(401)
+    try:
+        id = modeli.dodajIntervencijo(vrsta = 'intervencija',
+                               zacetek = bottle.request.forms.zacetek,
+                               zacetekUra = bottle.request.forms.zacetekUra,
+                               konec = bottle.request.forms.konec,
+                               konecUra = bottle.request.forms.konecUra,
+                               opomba = bottle.request.forms.opomba,
+                               opis = bottle.request.forms.opis,
+                               kraj = bottle.request.forms.kraj,
+                               kilometri = bottle.request.forms.kilometri)
+    except:
+        return template('dodaj_intervencijo',
+                               vrsta = 'intervencija',
+                               zacetek = bottle.request.forms.zacetek,
+                               zacetekUra = bottle.request.forms.zacetekUra,
+                               konec = bottle.request.forms.konec,
+                               konecUra = bottle.request.forms.konecUra,
+                               opomba = bottle.request.forms.opomba,
+                               opis = bottle.request.forms.opis,
+                               kraj = bottle.request.forms.kraj,
+                               kilometri = bottle.request.forms.kilometri)
+
+    bottle.redirect('/intervencije')
 
 @get('/prijava')
 def prijava():
