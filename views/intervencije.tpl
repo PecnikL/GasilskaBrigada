@@ -85,7 +85,7 @@ input[type=submit] {
   </p>
   <ul class="menu-list">
     <li><a class="is-active" href = "/intervencije">Vse intervencije</a></li>
-    <li><a>Dodaj intervencijo</a></li>
+    <li><a href = "/dodaj-intervencijo/">Dodaj intervencijo</a></li>
   </ul>
   <p class="menu-label">
     Vaje

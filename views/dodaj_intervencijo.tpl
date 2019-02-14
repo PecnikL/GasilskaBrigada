@@ -1,7 +1,5 @@
 % rebase('osnovna_stran')
 
-
-
 <div class = "columns">
 <div class = "column is-one-fifth">
 <aside class="menu">
@@ -10,14 +8,14 @@
   </p>
   <ul class="menu-list">
     <li><a href= "/clani">Vsi člani</a></li>
-	<li><a href = /dodaj-clana/>Dodaj člana</a></li>
+	<li><a>Dodaj člana</a></li>
   </ul>
   <p class="menu-label">
     Intervencije
   </p>
   <ul class="menu-list">
-    <li><a  class="is-active"href = "/intervencije">Vse intervencije</a></li>
-    <li><a href = "/dodaj-intervencijo/">Dodaj intervencijo</a></li>
+    <li><a href = "/intervencije">Vse intervencije</a></li>
+	<li><a class="is-active" href = /dodaj-intervencijo/>Dodaj intervencijo</a></li>
   </ul>
   <p class="menu-label">
     Vaje
@@ -58,19 +56,30 @@
 </div>
 <div class ="column">
 	
+<h1 class ="title"> Dodaj intervencijo: </h1>
+
+<form method="post">
+
+zacetek: <input type="text" name="zacetek" value="{{zacetek}}" /><br />
+
+zacetekUra: <input type="text" name="zacetekUra" value="{{zacetekUra}}" /><br />
+
+konec: <input type="text" name="konec" value="{{konec}}" /><br />
+
+konecUra: <input type="text" name="konecUra" value="{{konecUra}}" /><br />
+
+opomba: <input type="text" name="opomba" value="{{opomba}}" /><br />
+
+opis: <input type="text" name="opis" value="{{opis}}" /><br />
+
+kraj: <input type="text" name="kraj" value="{{kraj}}" /><br />
+
+kilometri: <input type="text" name="kilometri" value="{{kilometri}}" /><br />
 
 
-<h1 class="title">
-	Podatki intervencije:
-</h1>
+<input type = "submit" value = "Dodaj intervencijo">
+</form>
 
-<h2 class="subtitle">
-	
-</h2>
 
  </div>
 </div>
-
-
-
-
