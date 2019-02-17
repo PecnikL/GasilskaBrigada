@@ -1,5 +1,7 @@
 import baza
 import sqlite3
+import random
+import hashlib
 
 conn = sqlite3.connect('GasilskaBrigada.db')
 baza.ustvari_bazo_ce_ne_obstaja(conn)
@@ -7,24 +9,47 @@ conn.execute("PRAGMA foreign_keys = ON")
 
 import time
 
-def uporabnik_baze(geslo, uporabnik):
+def zakodiraj(geslo, sol= None):
+    if sol is None:
+        sol = ''.join(chr(random.randint(65,122)) for _ in range(16))
+    posoljeno_geslo = geslo + '$' + sol
+    zakodirano_geslo = hashlib.sha512(posoljeno_geslo.encode()).hexdigest()
+    return zakodirano_geslo, sol
+
+def uporabnik_baze(geslo, uporabnisko_ime):
     """
     Funkcija preveri, ali je uporabnik z danim uporabniskim imenom in geslom
     v bazi uporabnik_baze.
     """
     poizvedba = """
-        SELECT COUNT(*)
+        SELECT geslo, sol
         FROM uporabnik_baze
-        WHERE uporabnik = ? AND geslo = ?
+        WHERE uporabnik = ? 
     """
-    (st_uporabnikov,)= conn.execute(poizvedba, [uporabnik, geslo]).fetchone()
-    return st_uporabnikov==1
+    uporabnik = conn.execute(poizvedba, [uporabnisko_ime]).fetchone()
+    if uporabnik is None:
+        return False
+    shranjeno_geslo, sol = uporabnik
+    zakodirano_geslo, _ = zakodiraj(geslo, sol)
+    return shranjeno_geslo == zakodirano_geslo
+
+def uporabljeno_uporabniskoIme(uporabniskoIme):
+    poizvedba = """
+        SELECT geslo, sol
+        FROM uporabnik_baze
+        WHERE uporabnik = ? 
+    """
+    uporabnik = conn.execute(poizvedba, [uporabniskoIme]).fetchone()
+    return uporabnik is None
     
 def dodaj_uporabnika_baze(geslo, uporabnik):
     if not uporabnik_baze(geslo, uporabnik):
-        poizvedba = "INSERT INTO uporabnik_baze (uporabnik, geslo) VALUES (?,?)"
-        return conn.execute(poizvedba,[uporabnik, geslo]).lastrowid
-
+        poizvedba = "INSERT INTO uporabnik_baze (uporabnik, geslo, sol) VALUES (?,?,?)"
+        with conn:
+            zakodirano_geslo, sol = zakodiraj(geslo)
+            conn.execute(poizvedba, [uporabnik, zakodirano_geslo, sol]).fetchone()
+            return True
+        
 def stevilo_clanov():
     poizvedba = """
         SELECT COUNT(*)
@@ -88,7 +113,19 @@ def vse_vaje():
     vaje = conn.execute(poizvedba, ['vaja']).fetchall()
     return vaje
 
+
+def vsa_vozila():
+    """
+Funkcija vrne vsa vozila PGD Hrušica.
+    """
+    poizvedba = """
+        SELECT id, vrstaVozila, prevozeniKm, zadnjiTehnicni
+        FROM vozilo
+    """
+    vozila = conn.execute(poizvedba).fetchall()
+    return vozila
     
+        
 def poisci_intervencije_in_vaje_clana(id_clana):
     """
     Funkcija, ki poišče vse intervencije in vaje, ki se jih je udeležil član.

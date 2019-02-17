@@ -219,6 +219,12 @@ def dodajanje_vaje():
 
     bottle.redirect('/vaje')
 
+
+@get('/static/<filename>')
+def staticna_datoteka(filename):
+    return bottle.static_file(filename, root='static')
+    
+
 @get('/prijava')
 def prijava():
     return template(
@@ -232,8 +238,8 @@ def prijava():
     if nazaj is not None:
         bottle.redirect('/')
     
-    prijavljen = modeli.uporabnik_baze(geslo = bottle.request.forms.geslo,
-                                       uporabnik = bottle.request.forms.uporabnik)
+    prijavljen = modeli.uporabnik_baze(bottle.request.forms.geslo,
+                                     bottle.request.forms.uporabnik)
     if prijavljen:
         bottle.response.set_cookie(
             'prijavljen', 'da', secret=SKRIVNOST, path='/')
@@ -265,11 +271,17 @@ def registracija():
     nazaj = bottle.request.POST.get('Nazaj')
     if nazaj is not None:
         bottle.redirect('/')
+    geslo = bottle.request.forms.geslo
+    uporabniskoIme = bottle.request.forms.uporabniskoIme
         
-    if not modeli.uporabnik_baze(bottle.request.forms.geslo, bottle.request.forms.uporabnik):
-         modeli.dodaj_uporabnika_baze(geslo = bottle.request.forms.geslo,
-                               uporabnik = bottle.request.forms.uporabnik)
-    
+    if not modeli.uporabnik_baze(geslo, uporabniskoIme):
+        if modeli.uporabljeno_uporabniskoIme(uporabniskoIme):
+            modeli.dodaj_uporabnika_baze(geslo,uporabniskoIme)
+        else:
+            raise bottle.HTTPError(403, "Uporabnik s tem uporabniškim imenom že obstaja!")
+
+    else:
+        raise bottle.HTTPError(403, "Uporabnik s tem uporabniškim imenom že obstaja!")
     bottle.redirect('/prijava')
     
 

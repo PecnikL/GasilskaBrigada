@@ -1,4 +1,6 @@
 import csv
+import codecs
+
 
 def pobrisi_tabele(conn):
     """Pobriši tabele iz baze."""
@@ -74,14 +76,15 @@ def ustvari_tabele(conn):
     conn.execute("""
                 CREATE TABLE uporabnik_baze (
                     uporabnik TEXT PRIMARY KEY,
-                    geslo TEXT
+                    geslo TEXT,
+                    sol TEXT
                     );
                 """)
 
 def uvozi_clane(conn):
     """Uvozi podatke o članih."""
     conn.execute("DELETE FROM clan;")
-    with open('podatki/clan.csv') as datoteka:
+    with codecs.open('podatki/clan.csv', 'r', 'utf-8') as datoteka:
         podatki = csv.reader(datoteka)
         stolpci = next(podatki)
         poizvedba = """
@@ -94,7 +97,7 @@ def uvozi_clane(conn):
 def uvozi_vozila(conn):
     """Uvozi podatke o vozilih."""
     conn.execute("DELETE FROM vozilo;")
-    with open('podatki/vozilo.csv') as datoteka:
+    with codecs.open('podatki/vozilo.csv', 'r', 'utf-8') as datoteka:
         podatki = csv.reader(datoteka)
         stolpci = next(podatki)
         poizvedba = """
@@ -106,7 +109,7 @@ def uvozi_vozila(conn):
 def uvozi_intervencije(conn):
     """Uvozi podatke o intervencijah."""
     conn.execute("DELETE FROM intervencija;")
-    with open('podatki/intervencija.csv') as datoteka:
+    with codecs.open('podatki/intervencija.csv', 'r', 'utf-8') as datoteka:
         podatki = csv.reader(datoteka)
         stolpci = next(podatki)
         poizvedba = """
@@ -118,7 +121,7 @@ def uvozi_intervencije(conn):
 def uvozi_tecaji(conn):
     """Uvozi podatke o tecajih."""
     conn.execute("DELETE FROM tecaji;")
-    with open('podatki/tecaji.csv') as datoteka:
+    with codecs.open('podatki/tecaji.csv', 'r', 'utf-8') as datoteka:
         podatki = csv.reader(datoteka)
         stolpci = next(podatki)
         poizvedba = """
@@ -130,7 +133,7 @@ def uvozi_tecaji(conn):
 def uvozi_uporabnike_baze(conn):
     """Uvozi uporabnike baze"""
     conn.execute("DELETE FROM uporabnik_baze;")
-    with open('podatki/uporabnik_baze.csv') as datoteka:
+    with codecs.open('podatki/uporabnik_baze.csv', 'r', 'utf-8') as datoteka:
         podatki = csv.reader(datoteka)
         stolpci = next(podatki)
         poizvedba = """
@@ -142,7 +145,7 @@ def uvozi_uporabnike_baze(conn):
 def uvozi_sodeluje(conn):
     """Uvozi podatke v tabelo sodeluje"""
     conn.execute("DELETE FROM sodeluje;")
-    with open('podatki/sodeluje.csv') as datoteka:
+    with codecs.open('podatki/sodeluje.csv', 'r', 'utf-8') as datoteka:
         podatki = csv.reader(datoteka)
         stolpci = next(podatki)
         poizvedba = """
