@@ -16,14 +16,14 @@
   </p>
   <ul class="menu-list">
     <li><a href = "/intervencije">Vse intervencije</a></li>
-    <li><a>Dodaj intervencijo</a></li>
+    <li><a href = "/dodaj-intervencijo/" >Dodaj intervencijo</a></li>
   </ul>
   <p class="menu-label">
     Vaje
   </p>
   <ul class="menu-list">
-    <li><a>Vse vaje</a></li>
-    <li><a>Dodaj vajo</a></li>
+    <li><a href = "/vaje">Vse vaje</a></li>
+    <li><a href = "/dodaj-vajo/">Dodaj vajo</a></li>
   </ul>
   <p class="menu-label">
     Vozila

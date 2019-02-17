@@ -84,14 +84,14 @@ input[type=submit] {
     Intervencije
   </p>
   <ul class="menu-list">
-    <li><a class="is-active" href = "/intervencije">Vse intervencije</a></li>
+    <li><a href = "/intervencije">Vse intervencije</a></li>
     <li><a href = "/dodaj-intervencijo/">Dodaj intervencijo</a></li>
   </ul>
   <p class="menu-label">
     Vaje
   </p>
   <ul class="menu-list">
-    <li><a href = "/vaje">Vse vaje</a></li>
+    <li><a class="is-active" href = "/vaje">Vse vaje</a></li>
     <li><a href = "/dodaj-vajo/">Dodaj vajo</a></li>
   </ul>
   <p class="menu-label">
@@ -128,16 +128,16 @@ input[type=submit] {
 	
 
 
-<h2 class ="title is-2">Intervencije PGD Hrušica</h2>
+<h2 class ="title is-2">Vaje PGD Hrušica</h2>
 
-<h3 class ="title is-3">Pretekle intervencije</h3>
+<h3 class ="title is-3">Pretekle vaje</h3>
 
 ( Začetek, Začetek ura, Konec, Konec ura, Kraj )
 
 <ol>
-	%for zacetek, zacetekUra, konec, konecUra, kraj in interv:
+	%for zacetek, zacetekUra, konec, konecUra, kraj in vaje:
 		<li> 
-			<a href = "/intervencije/{{id}}/">
+			<a href = "/vaje/{{id}}/">
 				{{zacetek}}, {{zacetekUra}}, {{konec}}, {{konecUra}}, {{kraj}}
 			</a>
 		</li>
@@ -152,9 +152,9 @@ input[type=submit] {
 <!--Make sure the form has the autocomplete function switched off:-->
 <form autocomplete="off" action="/action_page.php">
   <div class="autocomplete" style="width:300px;">
-    <input id="myInput" type="text" name="myCountry" placeholder="Kraj intervencije">
+    <input id="myInput" type="text" name="myCountry" placeholder="Kraj vaje">
   </div>
-  <label for="start">Datum intervencije:</label>
+  <label for="start">Datum vaje:</label>
 
 	<input type="date" id="start" name="trip-start"
        value=""
@@ -162,7 +162,7 @@ input[type=submit] {
 	<input type="submit" value="Poišči">
 </form>
 
-<h3 class ="title is-3">Dodaj intervencijo</h3>
+<h3 class ="title is-3">Dodaj vajo</h3>
 
  </div>
 </div>

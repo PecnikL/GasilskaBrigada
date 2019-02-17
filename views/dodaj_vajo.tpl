@@ -1,6 +1,5 @@
 % rebase('osnovna_stran')
 
-
 <div class = "columns">
 <div class = "column is-one-fifth">
 <aside class="menu">
@@ -8,7 +7,7 @@
     Člani
   </p>
   <ul class="menu-list">
-    <li><a class="is-active" href= "/clani">Vsi člani</a></li>
+    <li><a href= "/clani">Vsi člani</a></li>
 	<li><a href = "/dodaj-clana/">Dodaj člana</a></li>
   </ul>
   <p class="menu-label">
@@ -16,14 +15,14 @@
   </p>
   <ul class="menu-list">
     <li><a href = "/intervencije">Vse intervencije</a></li>
-    <li><a href = "/dodaj-intervencijo/">Dodaj intervencijo</a></li>
+	<li><a href = "/dodaj-intervencijo/">Dodaj intervencijo</a></li>
   </ul>
   <p class="menu-label">
     Vaje
   </p>
   <ul class="menu-list">
-    <li><a href = "/vaje" >Vse vaje</a></li>
-    <li><a href = "/dodaj-vajo/">Dodaj vajo</a></li>
+    <li><a href = "/vaje">Vse vaje</a></li>
+    <li><a class="is-active" href = "/dodaj-vajo/">Dodaj vajo</a></li>
   </ul>
   <p class="menu-label">
     Vozila
@@ -56,42 +55,31 @@
 </aside>
 </div>
 <div class ="column">
+	
+<h1 class ="title"> Dodaj vajo: </h1>
+
+<form method="post">
+
+zacetek: <input type="text" name="zacetek" value="{{zacetek}}" /><br />
+
+zacetekUra: <input type="text" name="zacetekUra" value="{{zacetekUra}}" /><br />
+
+konec: <input type="text" name="konec" value="{{konec}}" /><br />
+
+konecUra: <input type="text" name="konecUra" value="{{konecUra}}" /><br />
+
+opomba: <input type="text" name="opomba" value="{{opomba}}" /><br />
+
+opis: <input type="text" name="opis" value="{{opis}}" /><br />
+
+kraj: <input type="text" name="kraj" value="{{kraj}}" /><br />
+
+kilometri: <input type="text" name="kilometri" value="{{kilometri}}" /><br />
 
 
-<h1 class ="title"> Vsi člani </h1>
-<p> Trenutno je v bazi {{ st_clanov }} članov. </p>
-
-
-<form action="iskanje-clanov/" method ="get" _lpchecked="1">
-	<input type="text" name="ime_priimek" value="">
-	<input type="submit" value="išči">
+<input type = "submit" value = "Dodaj vajo">
 </form>
 
-( Ime Priimek, datum rojstva, član od, zadnji zdravniški )
 
-<ol>
-	%for id, ime, priimek, datumRojstva, clanOd, zadnjiZdravniski in clani:
-		<li> 
-			<a href = "/clani/{{id}}/">
-				{{ime}} {{priimek}}, {{datumRojstva}}, {{clanOd}}, {{zadnjiZdravniski}} 
-			</a>
-		</li>
-	%end
-
-</ol>
-
-
-<a href = '/dodaj-clana/'>
-	Dodaj člana
-</a>
-	
  </div>
 </div>
-
-
-
-
-
-
-
-

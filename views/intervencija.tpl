@@ -10,7 +10,7 @@
   </p>
   <ul class="menu-list">
     <li><a href= "/clani">Vsi člani</a></li>
-	<li><a href = /dodaj-clana/>Dodaj člana</a></li>
+	<li><a href = "/dodaj-clana/">Dodaj člana</a></li>
   </ul>
   <p class="menu-label">
     Intervencije
@@ -23,8 +23,8 @@
     Vaje
   </p>
   <ul class="menu-list">
-    <li><a>Vse vaje</a></li>
-    <li><a>Dodaj vajo</a></li>
+    <li><a href = "/vaje">Vse vaje</a></li>
+    <li><a href = "/dodaj-vajo/">Dodaj vajo</a></li>
   </ul>
   <p class="menu-label">
     Vozila

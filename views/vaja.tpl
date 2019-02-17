@@ -1,6 +1,7 @@
 % rebase('osnovna_stran')
 
 
+
 <div class = "columns">
 <div class = "column is-one-fifth">
 <aside class="menu">
@@ -8,7 +9,7 @@
     Člani
   </p>
   <ul class="menu-list">
-    <li><a class="is-active" href= "/clani">Vsi člani</a></li>
+    <li><a href= "/clani">Vsi člani</a></li>
 	<li><a href = "/dodaj-clana/">Dodaj člana</a></li>
   </ul>
   <p class="menu-label">
@@ -22,7 +23,7 @@
     Vaje
   </p>
   <ul class="menu-list">
-    <li><a href = "/vaje" >Vse vaje</a></li>
+    <li><a class="is-active" href = "/vaje">Vse vaje</a></li>
     <li><a href = "/dodaj-vajo/">Dodaj vajo</a></li>
   </ul>
   <p class="menu-label">
@@ -56,42 +57,16 @@
 </aside>
 </div>
 <div class ="column">
-
-
-<h1 class ="title"> Vsi člani </h1>
-<p> Trenutno je v bazi {{ st_clanov }} članov. </p>
-
-
-<form action="iskanje-clanov/" method ="get" _lpchecked="1">
-	<input type="text" name="ime_priimek" value="">
-	<input type="submit" value="išči">
-</form>
-
-( Ime Priimek, datum rojstva, član od, zadnji zdravniški )
-
-<ol>
-	%for id, ime, priimek, datumRojstva, clanOd, zadnjiZdravniski in clani:
-		<li> 
-			<a href = "/clani/{{id}}/">
-				{{ime}} {{priimek}}, {{datumRojstva}}, {{clanOd}}, {{zadnjiZdravniski}} 
-			</a>
-		</li>
-	%end
-
-</ol>
-
-
-<a href = '/dodaj-clana/'>
-	Dodaj člana
-</a>
 	
+
+
+<h1 class="title">
+	Podatki vaje:
+</h1>
+
+<h2 class="subtitle">
+	
+</h2>
+
  </div>
 </div>
-
-
-
-
-
-
-
-

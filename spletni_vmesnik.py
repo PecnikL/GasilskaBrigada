@@ -159,6 +159,66 @@ def dodajanje_intervencije():
 
     bottle.redirect('/intervencije')
 
+@get('/vaje')
+@get('/vaje/<id1>/')
+def vaje(id1 = None):
+    if not prijavljen_uporabnik():
+        raise bottle.HTTPError(401)
+    kraji = modeli.vsi_kraji_vaj()
+    vaje = modeli.vse_vaje()
+    if id1 == None:
+        return template(
+            'vaje',
+            kraji = kraji,
+            vaje = vaje
+        )
+    else:
+        return template(
+            'vaja'
+        )
+
+@get('/dodaj-vajo/')
+def dodaj_vajo():
+    if not prijavljen_uporabnik():
+        raise bottle.HTTPError(401)
+    return template(
+        'dodaj_vajo',
+        zacetek = "",
+        zacetekUra = "",
+        konec = "",
+        konecUra = "",
+        opomba = "",
+        opis = "",
+        kraj = "",
+        kilometri = ""
+        )
+@post('/dodaj-vajo/')
+def dodajanje_vaje():
+    if not prijavljen_uporabnik():
+        raise bottle.HTTPError(401)
+    try:
+        id = modeli.dodajVajo(
+                               zacetek = bottle.request.forms.zacetek,
+                               zacetekUra = bottle.request.forms.zacetekUra,
+                               konec = bottle.request.forms.konec,
+                               konecUra = bottle.request.forms.konecUra,
+                               opomba = bottle.request.forms.opomba,
+                               opis = bottle.request.forms.opis,
+                               kraj = bottle.request.forms.kraj,
+                               kilometri = bottle.request.forms.kilometri)
+    except:
+        return template('dodaj_vajo',
+                               zacetek = bottle.request.forms.zacetek,
+                               zacetekUra = bottle.request.forms.zacetekUra,
+                               konec = bottle.request.forms.konec,
+                               konecUra = bottle.request.forms.konecUra,
+                               opomba = bottle.request.forms.opomba,
+                               opis = bottle.request.forms.opis,
+                               kraj = bottle.request.forms.kraj,
+                               kilometri = bottle.request.forms.kilometri)
+
+    bottle.redirect('/vaje')
+
 @get('/prijava')
 def prijava():
     return template(
