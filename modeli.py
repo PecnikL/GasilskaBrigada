@@ -88,7 +88,19 @@ def vse_vaje():
     vaje = conn.execute(poizvedba, ['vaja']).fetchall()
     return vaje
 
+
+def vsa_vozila():
+    """
+Funkcija vrne vsa vozila PGD Hrušica.
+    """
+    poizvedba = """
+        SELECT id, vrstaVozila, prevozeniKm, zadnjiTehnicni
+        FROM vozilo
+    """
+    vozila = conn.execute(poizvedba).fetchall()
+    return vozila
     
+        
 def poisci_intervencije_in_vaje_clana(id_clana):
     """
     Funkcija, ki poišče vse intervencije in vaje, ki se jih je udeležil član.
