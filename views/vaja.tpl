@@ -17,42 +17,41 @@
   </p>
   <ul class="menu-list">
     <li><a href = "/intervencije">Vse intervencije</a></li>
-    <li><a href = "/dodaj-intervencijo/">Dodaj intervencijo</a></li>
+	<li><a href = /dodaj-intervencijo/>Dodaj intervencijo</a></li>
   </ul>
   <p class="menu-label">
     Vaje
   </p>
   <ul class="menu-list">
-    <li><a class="is-active" href = "/vaje">Vse vaje</a></li>
+    <li><a class="is-active" href = "/vaje" >Vse vaje</a></li>
     <li><a href = "/dodaj-vajo/">Dodaj vajo</a></li>
   </ul>
   <p class="menu-label">
     Vozila
   </p>
   <ul class="menu-list">
-    <li><a>Podatki o vozilih</a></li>
-    <li><a>Dodaj vozilo</a></li>
-    <li><a>Odstrani vozilo</a></li>
+    <li><a href="/vozila">Podatki o vozilih</a></li>
+    <li><a href="/dodaj-vozilo/">Dodaj vozilo</a></li>
   </ul>
   <p class="menu-label">
     Uporaba IDA
   </p>
-  <ul class="menu-list">
-    <li><a>Podatki o uporabi IDA</a></li>
+   <ul class="menu-list">
+    <li><a href = "/ida">Podatki o uporabi IDA</a></li>
+	<li><a  href = "/dodaj-uporabo-ida/">Doda uporabo IDA</a></li>
   </ul>
   <p class="menu-label">
     Tečaji
   </p>
   <ul class="menu-list">
-    <li><a>Vsi tečaji</a></li>
-    <li><a>Dodaj tečaj</a></li>
+    <li><a href="/tecaji">Vsi tečaji</a></li>
+    <li><a  href = "/dodaj-tecaj/">Dodaj tečaj</a></li>
   </ul>
   <p class="menu-label">
     Drugo
   </p>
   <ul class="menu-list">
-    <li><a>Letno poročilo</a></li>
-    <li><a>Uporabniki baze</a></li>
+    <li><a href = "/letno-porocilo">Letno poročilo</a></li>
   </ul>
 </aside>
 </div>
@@ -64,9 +63,34 @@
 	Podatki vaje:
 </h1>
 
+<br>
 <h2 class="subtitle">
-	
+
+Vaja z id: {{id2}}
 </h2>
 
+Začetek vaje: {{zacetek}}<br>
+Čas začetka: {{zacetekUra}}<br>
+Konec vaje: {{konec}}<br>
+Čas konca: {{zacetekUra}}<br>
+Opomba: {{opomba}} <br>
+Opis: {{opis}} <br>
+Kraj: {{kraj}} <br>
+Kilometri: {{kilometri}} <br>
+<br>
+
+
+
+
+Nazaj na: <br>
+<a href = '/vaje'>
+	Vse vaje
+</a>
+<br>
+<a href = '/dodaj-vajo/'>
+	Dodaj vajo
+</a>
+
+<ol>
  </div>
 </div>

@@ -15,7 +15,7 @@
     Intervencije
   </p>
   <ul class="menu-list">
-    <li><a class="is-active" href = "/intervencije">Vse intervencije</a></li>
+    <li><a href = "/intervencije">Vse intervencije</a></li>
 	<li><a href = /dodaj-intervencijo/>Dodaj intervencijo</a></li>
   </ul>
   <p class="menu-label">
@@ -29,7 +29,7 @@
     Vozila
   </p>
   <ul class="menu-list">
-    <li><a href="/vozila">Podatki o vozilih</a></li>
+    <li><a class="is-active" href="/vozila">Podatki o vozilih</a></li>
     <li><a href="/dodaj-vozilo/">Dodaj vozilo</a></li>
   </ul>
   <p class="menu-label">
@@ -58,38 +58,28 @@
 	
 
 
-<h2 class ="title is-2">Intervencije PGD Hrušica</h2>
+<h2 class ="title is-2">Vozila PGD Hrušice</h2>
 
-<h3 class ="title is-3">Pretekle intervencije</h3>
 
-( Začetek, Začetek ura, Konec, Konec ura, Kraj )
+<p> Trenutno je v bazi {{ stevilo_vozil }} vozil: </p>
+<br>
+
+( vrsta vozila, prevoženi Km, zadnji Tehnični )
 
 <ol>
-	%for id, zacetek, zacetekUra, konec, konecUra, kraj in interv:
+	%for id, vrstaVozila, prevozeniKm, zadnjiTehnicni in vozila:
 		<li> 
-			<a href = "/intervencije/{{id}}/">
-				{{zacetek}}, {{zacetekUra}}, {{konec}}, {{konecUra}}, {{kraj}}
-			</a>
+				{{vrstaVozila}}, {{prevozeniKm}}, {{zadnjiTehnicni}}
 		</li>
-	%end
-
+	%end	
 </ol>
 
 
 
 <br>
-
-<label for="start">Datum intervencije:</label>
-<input type="date" id="start" name="trip-start"
-       value=""
-       min="" max="">
-<input type="submit" value="Poišči">
-
-
 <br>
-<br>
-<a href = '/dodaj-intervencijo/'>
-	Dodaj Intervencijo
+<a href = '/dodaj-vozilo/'>
+	Dodaj vozilo
 </a>
 
  </div>

@@ -29,8 +29,8 @@ def ustvari_tabele(conn):
     conn.execute("""
                 CREATE TABLE vozilo (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    vrstaVozlia TEXT,
-                    prevozeniKm INTEGER,
+                    vrstaVozila TEXT,
+                    prevozeniKm TEXT,
                     zadnjiTehnicni TEXT
                     );
                 """)

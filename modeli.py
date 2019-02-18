@@ -93,7 +93,7 @@ def vse_intervencije():
     Fukcija vrne vse intervencije PGD Hrušica.
     """
     poizvedba = """
-        SELECT zacetek, zacetekUra, konec, konecUra, kraj
+        SELECT id, zacetek, zacetekUra, konec, konecUra, kraj
         FROM intervencija
         WHERE vrsta = ?
     """
@@ -106,7 +106,7 @@ def vse_vaje():
     Fukcija vrne vse vaje PGD Hrušica.
     """
     poizvedba = """
-        SELECT zacetek, zacetekUra, konec, konecUra, kraj
+        SELECT id, zacetek, zacetekUra, konec, konecUra, kraj
         FROM intervencija
         WHERE vrsta = ?
     """
@@ -116,7 +116,7 @@ def vse_vaje():
 
 def vsa_vozila():
     """
-Funkcija vrne vsa vozila PGD Hrušica.
+    Funkcija vrne vsa vozila PGD Hrušica.
     """
     poizvedba = """
         SELECT id, vrstaVozila, prevozeniKm, zadnjiTehnicni
@@ -124,6 +124,17 @@ Funkcija vrne vsa vozila PGD Hrušica.
     """
     vozila = conn.execute(poizvedba).fetchall()
     return vozila
+
+def vsi_tecaji():
+    """
+    Funkcija vrne vse tečaje PGD Hrušica.
+    """
+    poizvedba = """
+        SELECT id, naziv
+        FROM tecaji
+    """
+    tecaji = conn.execute(poizvedba).fetchall()
+    return tecaji
     
         
 def poisci_intervencije_in_vaje_clana(id_clana):
@@ -204,10 +215,7 @@ def dodajClana(ime, priimek, datumRojstva, clanOd, zadnjiZdravniski):
     """
     V bazo doda novega člana.
     """
-    return conn.execute("INSERT INTO clan (ime,priimek, datumRojstva, clanOd, zadnjiZdravniski VALUES (?,?,?,?,?)", [ime,priimek, datumRojstva, clanOd, zadnjiZdravniski]).lastrowid
-    
-
-
+    return conn.execute("INSERT INTO clan (ime,priimek, datumRojstva, clanOd, zadnjiZdravniski) VALUES (?,?,?,?,?)",[ime,priimek, datumRojstva, clanOd, zadnjiZdravniski]).lastrowid
 
 
 def dodajIntervencijo(zacetek,zacetekUra, konec, konecUra, kraj, kilometri, opis, opomba):
@@ -216,9 +224,7 @@ def dodajIntervencijo(zacetek,zacetekUra, konec, konecUra, kraj, kilometri, opis
         (vrsta, zacetek, zacetekUra, konec, konecUra, opomba, opis, kraj, kilometri)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
     """
-    with conn:
-        conn.execute(poizvedba ,['intervencija', zacetek, zacetekUra, konec, konecUra, opomba, opis, kraj, kilometri])
-
+    return conn.execute(poizvedba ,['intervencija', zacetek, zacetekUra, konec, konecUra, opomba, opis, kraj, kilometri]).lastrowid
 
 def vsi_kraji_intervencij():
     """
@@ -257,8 +263,7 @@ def dodajVajo(zacetek,zacetekUra, konec, konecUra, kraj, kilometri, opis, opomba
         (vrsta, zacetek, zacetekUra, konec, konecUra, opomba, opis, kraj, kilometri)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
     """
-    with conn:
-        conn.execute(poizvedba ,['vaja', zacetek, zacetekUra, konec, konecUra, opomba, opis, kraj, kilometri])
+    return conn.execute(poizvedba ,['vaja', zacetek, zacetekUra, konec, konecUra, opomba, opis, kraj, kilometri]).lastrowid
 
 
 
@@ -269,13 +274,11 @@ def dodajVozilo(vrstaVozila, prevozeniKm, zadnjiTehnicni):
         (vrstaVozila, prevozeniKm, zadnjiTehnicni)
         VALUES (?, ?, ?)
     """
-    with conn:
-        conn.execute(poizvedba ,[vrstaVozila, prevozeniKm, zadnjiTehnicni])
+    return conn.execute(poizvedba ,[vrstaVozila, prevozeniKm, zadnjiTehnicni]).lastrowid
 
 
 
-
-def dodajIda(clanId, intervencijaId):
+def dodajUporaboIda(clanId, intervencijaId):
     """
     Funkcija, ki v tabelo shrani podatke o uporabi ida.
     """
@@ -287,8 +290,29 @@ def dodajIda(clanId, intervencijaId):
     with conn:
         conn.execute(poizvedba ,[clanId, intervencijaId])
 
+def poisci_uporabo_ida(id1): 
+    """
+    Fukcija vrne vse uporabe IDA nekega člana z id-jem id1.
+    """
+    poizvedba = """
+        SELECT intervencija
+        FROM ida
+        WHERE clan = ?
+    """
+    uporabe = conn.execute(poizvedba, [id1]).fetchall()
+    return uporabe
 
-        
+def stevilo_uporab_ida_clana(id1): 
+    """
+    Fukcija vrne vse uporabe IDA nekega člana z id-jem id1.
+    """
+    poizvedba = """
+        SELECT intervencija
+        FROM ida
+        WHERE clan = ?
+    """
+    uporabe = conn.execute(poizvedba, [id1]).fetchall()
+    return len(uporabe) 
 
 def dodajTecaj(ime):
     poizvedba = """
@@ -354,20 +378,41 @@ def spremeni_datum_zdravniškega_pregleda(id_clan, datum = None):
 
 def poisci_clana(niz):
     """
-    Funkcija, ki vrne IDje vseh clanov, katerih ime vsebuje dani niz.
+    Funkcija, ki vrne IDje vseh clanov, katerih ime in priimek vsebuje dani niz (lahko tudi samo ime).
     >>> poisci_clana('coen')
     [1053, 1054]
     """
-    poizvedba = """
-        SELECT id
-        FROM clan
-        WHERE ime LIKE ?
-        ORDER BY ime
-    """
-    idji_clanov = []
-    for (id_clana,) in conn.execute(poizvedba, ['%' + niz + '%']):
-        idji_clanov.append(id_clana)
-    return idji_clanov
+    print(niz)
+    poizvedba = ""
+    if niz != None:
+        ime_priimek = niz.split(' ', 1)
+        ime = ime_priimek[0]
+        if len(ime_priimek)>1:
+            priimek = ime_priimek[1]
+            poizvedba = """
+                SELECT id
+                FROM clan
+                WHERE ((ime LIKE ?)  AND (priimek LIKE ?))
+                ORDER BY ime
+            """
+            idji_clanov = []
+            for (id_clana,) in conn.execute(poizvedba, ['%' + ime + '%', '%' + priimek + '%']):
+                idji_clanov.append(id_clana)
+            return idji_clanov
+                    
+            
+    
+        else:
+            poizvedba = """
+                SELECT id
+                FROM clan
+                WHERE ime LIKE ?
+                ORDER BY ime
+            """
+            idji_clanov = []
+            for (id_clana,) in conn.execute(poizvedba, ['%' + ime + '%']):
+                idji_clanov.append(id_clana)
+            return idji_clanov
 
 
 
@@ -461,7 +506,6 @@ def podatki_intervencije(idInterv):
 
 
 
-
 def poisci_vajo(kraj, datum):
     """
     Funkcija vrne id vaje
@@ -503,13 +547,3 @@ def podatki_vaje(idVaje):
         return None
     id1, vrsta, zacetek, zacetekUra, konec, konecUra, opomba, opis, kraj, kilometri = osnovni_podatki
     return id1, vrsta, zacetek, zacetekUra, konec, konecUra, opomba, opis, kraj, kilometri
-
-def dodajUporaboIda(clan, intervencija):
-    '''V tabelo seUporabi doda podatek o uporabi ida'''
-    poizvedba = """
-        INSERT INTO ida
-        (clan, intervencija)
-        VALUES (?, ?)
-    """
-    with conn:
-        conn.execute(poizvedba ,[clan, intervencija])

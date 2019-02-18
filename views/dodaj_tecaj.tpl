@@ -1,6 +1,5 @@
 % rebase('osnovna_stran')
 
-
 <div class = "columns">
 <div class = "column is-one-fifth">
 <aside class="menu">
@@ -15,7 +14,7 @@
     Intervencije
   </p>
   <ul class="menu-list">
-    <li><a class="is-active" href = "/intervencije">Vse intervencije</a></li>
+    <li><a href = "/intervencije">Vse intervencije</a></li>
 	<li><a href = /dodaj-intervencijo/>Dodaj intervencijo</a></li>
   </ul>
   <p class="menu-label">
@@ -44,7 +43,7 @@
   </p>
   <ul class="menu-list">
     <li><a href="/tecaji">Vsi tečaji</a></li>
-    <li><a  href = "/dodaj-tecaj/">Dodaj tečaj</a></li>
+    <li><a class="is-active" href = "/dodaj-tecaj/">Dodaj tečaj</a></li>
   </ul>
   <p class="menu-label">
     Drugo
@@ -54,47 +53,18 @@
   </ul>
 </aside>
 </div>
+
 <div class ="column">
 	
+<h1 class ="title"> Dodaj tečaj: </h1>
 
+<form method="post">
 
-<h2 class ="title is-2">Intervencije PGD Hrušica</h2>
+Naziv tečaja: <input type="text" name="naziv" value="{{naziv}}" /><br/>
 
-<h3 class ="title is-3">Pretekle intervencije</h3>
+<input type = "submit" value = "Dodaj">
+</form>
 
-( Začetek, Začetek ura, Konec, Konec ura, Kraj )
-
-<ol>
-	%for id, zacetek, zacetekUra, konec, konecUra, kraj in interv:
-		<li> 
-			<a href = "/intervencije/{{id}}/">
-				{{zacetek}}, {{zacetekUra}}, {{konec}}, {{konecUra}}, {{kraj}}
-			</a>
-		</li>
-	%end
-
-</ol>
-
-
-
-<br>
-
-<label for="start">Datum intervencije:</label>
-<input type="date" id="start" name="trip-start"
-       value=""
-       min="" max="">
-<input type="submit" value="Poišči">
-
-
-<br>
-<br>
-<a href = '/dodaj-intervencijo/'>
-	Dodaj Intervencijo
-</a>
 
  </div>
 </div>
-
-
-
-

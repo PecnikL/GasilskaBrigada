@@ -1,6 +1,5 @@
 % rebase('osnovna_stran')
 
-
 <div class = "columns">
 <div class = "column is-one-fifth">
 <aside class="menu">
@@ -15,7 +14,7 @@
     Intervencije
   </p>
   <ul class="menu-list">
-    <li><a class="is-active" href = "/intervencije">Vse intervencije</a></li>
+    <li><a href = "/intervencije">Vse intervencije</a></li>
 	<li><a href = /dodaj-intervencijo/>Dodaj intervencijo</a></li>
   </ul>
   <p class="menu-label">
@@ -37,7 +36,7 @@
   </p>
    <ul class="menu-list">
     <li><a href = "/ida">Podatki o uporabi IDA</a></li>
-	<li><a  href = "/dodaj-uporabo-ida/">Doda uporabo IDA</a></li>
+	<li><a class="is-active" href = "/dodaj-uporabo-ida/">Doda uporabo IDA</a></li>
   </ul>
   <p class="menu-label">
     Tečaji
@@ -56,45 +55,35 @@
 </div>
 <div class ="column">
 	
+<h1 class ="title">Dodaj uporabo IDA</h1>
 
+<form method="post">
 
-<h2 class ="title is-2">Intervencije PGD Hrušica</h2>
-
-<h3 class ="title is-3">Pretekle intervencije</h3>
-
-( Začetek, Začetek ura, Konec, Konec ura, Kraj )
-
-<ol>
-	%for id, zacetek, zacetekUra, konec, konecUra, kraj in interv:
-		<li> 
-			<a href = "/intervencije/{{id}}/">
-				{{zacetek}}, {{zacetekUra}}, {{konec}}, {{konecUra}}, {{kraj}}
-			</a>
-		</li>
+Izberi intervencijo:
+<select name = "intervencija">
+	%for i in intervencije:
+		<option  value="{{i[0]}}">{{i[0]}}, {{i[1]}}</option>
 	%end
-
-</ol>
-
+</select>
+<br>
+Dodaj člana:<br>
+%for i in clani:
+	<input type="checkbox" name="clan" value="{{i[0]}}"> {{i[1]}} {{i[2]}}<br>
+%end
 
 
 <br>
-
-<label for="start">Datum intervencije:</label>
-<input type="date" id="start" name="trip-start"
-       value=""
-       min="" max="">
-<input type="submit" value="Poišči">
+<input type = "submit" value = "Dodaj">
+</form>
 
 
 <br>
 <br>
-<a href = '/dodaj-intervencijo/'>
-	Dodaj Intervencijo
+Pojdi na:
+<br>
+<a href = '/ida'>
+	Podatki o uporabi ida
 </a>
 
  </div>
 </div>
-
-
-
-

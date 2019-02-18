@@ -15,7 +15,7 @@
     Intervencije
   </p>
   <ul class="menu-list">
-    <li><a class="is-active" href = "/intervencije">Vse intervencije</a></li>
+    <li><a href = "/intervencije">Vse intervencije</a></li>
 	<li><a href = /dodaj-intervencijo/>Dodaj intervencijo</a></li>
   </ul>
   <p class="menu-label">
@@ -36,7 +36,7 @@
     Uporaba IDA
   </p>
    <ul class="menu-list">
-    <li><a href = "/ida">Podatki o uporabi IDA</a></li>
+    <li><a class="is-active" href = "/ida">Podatki o uporabi IDA</a></li>
 	<li><a  href = "/dodaj-uporabo-ida/">Doda uporabo IDA</a></li>
   </ul>
   <p class="menu-label">
@@ -58,43 +58,48 @@
 	
 
 
-<h2 class ="title is-2">Intervencije PGD Hrušica</h2>
+<h2 class ="title is-2">Podatki o uporabi IDA</h2>
 
-<h3 class ="title is-3">Pretekle intervencije</h3>
 
-( Začetek, Začetek ura, Konec, Konec ura, Kraj )
+
+
+( Id-člana, Število uporab, (intervencije na katerih je bil uporabljen) )
 
 <ol>
-	%for id, zacetek, zacetekUra, konec, konecUra, kraj in interv:
+	%for i in seznam_uporab_ida_vseh_clanov:
 		<li> 
-			<a href = "/intervencije/{{id}}/">
-				{{zacetek}}, {{zacetekUra}}, {{konec}}, {{konecUra}}, {{kraj}}
-			</a>
+		%for j in range(len(i)):
+				%if j == 0:
+					<a href= "/clani/{{i[0]}}/">{{i[0]}}</a>,
+				%end
+				%if j==1:
+					{{i[1]}},
+				%end
+				%if j==2:
+				[
+					%for k in range(len(i[2])):
+						<a href= "/intervencije/{{i[2][k][0]}}/">{{i[2][k][0]}}</a>
+						%if k!= len(i[2])-1:
+							,
+							
+						%end
+					%end
+				]
+				%end
+		
+		%end
+		<br>
 		</li>
-	%end
-
+	%end	
 </ol>
 
 
 
 <br>
-
-<label for="start">Datum intervencije:</label>
-<input type="date" id="start" name="trip-start"
-       value=""
-       min="" max="">
-<input type="submit" value="Poišči">
-
-
 <br>
-<br>
-<a href = '/dodaj-intervencijo/'>
-	Dodaj Intervencijo
+<a href = '/dodaj-uporabo-ida/'>
+	Dodaj uporabo IDA
 </a>
 
  </div>
 </div>
-
-
-
-

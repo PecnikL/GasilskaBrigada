@@ -1,6 +1,5 @@
 % rebase('osnovna_stran')
 
-
 <div class = "columns">
 <div class = "column is-one-fifth">
 <aside class="menu">
@@ -15,7 +14,7 @@
     Intervencije
   </p>
   <ul class="menu-list">
-    <li><a class="is-active" href = "/intervencije">Vse intervencije</a></li>
+    <li><a href = "/intervencije">Vse intervencije</a></li>
 	<li><a href = /dodaj-intervencijo/>Dodaj intervencijo</a></li>
   </ul>
   <p class="menu-label">
@@ -30,7 +29,7 @@
   </p>
   <ul class="menu-list">
     <li><a href="/vozila">Podatki o vozilih</a></li>
-    <li><a href="/dodaj-vozilo/">Dodaj vozilo</a></li>
+    <li><a class="is-active" href="/dodaj-vozilo/">Dodaj vozilo</a></li>
   </ul>
   <p class="menu-label">
     Uporaba IDA
@@ -56,45 +55,22 @@
 </div>
 <div class ="column">
 	
+<h1 class ="title"> Dodaj vozilo: </h1>
 
+<form method="post">
 
-<h2 class ="title is-2">Intervencije PGD Hrušica</h2>
+Vrsta vozila: <input type="text" name="vrstaVozila" value="{{vrstaVozila}}" /><br />
 
-<h3 class ="title is-3">Pretekle intervencije</h3>
+Prevoženi kilometri: <input type="text" name="prevozeniKm" value="{{prevozeniKm}}" /><br />
 
-( Začetek, Začetek ura, Konec, Konec ura, Kraj )
-
-<ol>
-	%for id, zacetek, zacetekUra, konec, konecUra, kraj in interv:
-		<li> 
-			<a href = "/intervencije/{{id}}/">
-				{{zacetek}}, {{zacetekUra}}, {{konec}}, {{konecUra}}, {{kraj}}
-			</a>
-		</li>
-	%end
-
-</ol>
+Zadnji tehnični pregled: <input type="text" name="zadnjiTehnicni" value="{{zadnjiTehnicni}}" /><br />
 
 
 
-<br>
 
-<label for="start">Datum intervencije:</label>
-<input type="date" id="start" name="trip-start"
-       value=""
-       min="" max="">
-<input type="submit" value="Poišči">
+<input type = "submit" value = "Dodaj">
+</form>
 
-
-<br>
-<br>
-<a href = '/dodaj-intervencijo/'>
-	Dodaj Intervencijo
-</a>
 
  </div>
 </div>
-
-
-
-

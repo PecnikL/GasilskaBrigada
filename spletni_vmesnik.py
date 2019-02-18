@@ -42,6 +42,7 @@ def clani(id1=None):
         )
     else:
         ime,priimek,datumRojstva,clanOd, zadnjiZdravniski, aktivnosti = modeli.podatki_clana(int(id1))
+        vse_aktivnosti = modeli.podatki_intervencij(aktivnosti)
         return template(
             'clan',
             ime = ime,
@@ -49,7 +50,7 @@ def clani(id1=None):
             datumRojstva = datumRojstva,
             clanOd = clanOd,
             zadnjiZdravniski = zadnjiZdravniski,
-            aktivnosti = aktivnosti
+            vse_aktivnosti = vse_aktivnosti
             )
 
 @get('/iskanje-clanov/')
@@ -81,12 +82,14 @@ def dodaj_clana():
 def dodajanje_clana():
     if not prijavljen_uporabnik():
         raise bottle.HTTPError(401)
+    ime = bottle.request.forms.ime
+    priimek = bottle.request.forms.priimek
+    datumRojstva = bottle.request.forms.datumRojstva
+    clanOd = bottle.request.forms.clanOd
+    zadnjiZdravniski = bottle.request.forms.zadnjiZdravniski
+    id1 = None
     try:
-        id = modeli.dodajClana(ime = bottle.request.forms.ime,
-                               priimek = bottle.request.forms.priimek,
-                               datumRojstva = bottle.request.forms.datumRojstva,
-                               clanOd = bottle.request.forms.clanOd,
-                               zadnjiZdravniski = bottle.request.forms.zadnjiZdravniski)
+        id1 = modeli.dodajClana(ime, priimek, datumRojstva, clanOd, zadnjiZdravniski)
     except:
         return template('dodaj_clana',
                         ime = bottle.request.forms.ime,
@@ -94,9 +97,7 @@ def dodajanje_clana():
                         datumRojstva = bottle.request.forms.datumRojstva,
                         clanOd = bottle.request.forms.clanOd,
                         zadnjiZdravniski = bottle.request.forms.zadnjiZdravniski)
-
-    bottle.redirect('/clani')
-
+    bottle.redirect('/clani/'+str(id1) + '/')
     
 @get('/intervencije')
 @get('/intervencije/<id1>/')
@@ -112,10 +113,22 @@ def intervencije(id1 = None):
             interv = interv
         )
     else:
-        return template(
-            'intervencija'
-        )
 
+        id2, vrsta, zacetek, zacetekUra, konec, konecUra, opomba, opis, kraj, kilometri = modeli.podatki_intervencije(int(id1))
+        
+        return template(
+            'intervencija',
+            id2 = id2,
+            vrsta = vrsta,
+            zacetek = zacetek,
+            zacetekUra = zacetekUra,
+            konec = konec,
+            konecUra = konecUra,
+            opomba = opomba,
+            opis = opis,
+            kraj = kraj,
+            kilometri= kilometri
+        )
 @get('/dodaj-intervencijo/')
 def dodaj_intervencijo():
     if not prijavljen_uporabnik():
@@ -135,8 +148,9 @@ def dodaj_intervencijo():
 def dodajanje_intervencije():
     if not prijavljen_uporabnik():
         raise bottle.HTTPError(401)
+    id1 = None
     try:
-        id = modeli.dodajIntervencijo(vrsta = 'intervencija',
+        id1 = modeli.dodajIntervencijo(
                                zacetek = bottle.request.forms.zacetek,
                                zacetekUra = bottle.request.forms.zacetekUra,
                                konec = bottle.request.forms.konec,
@@ -157,7 +171,7 @@ def dodajanje_intervencije():
                                kraj = bottle.request.forms.kraj,
                                kilometri = bottle.request.forms.kilometri)
 
-    bottle.redirect('/intervencije')
+    bottle.redirect('/intervencije/'+str(id1)+'/')
 
 @get('/vaje')
 @get('/vaje/<id1>/')
@@ -173,8 +187,20 @@ def vaje(id1 = None):
             vaje = vaje
         )
     else:
+        id2, vrsta, zacetek, zacetekUra, konec, konecUra, opomba, opis, kraj, kilometri = modeli.podatki_vaje(int(id1))
+        
         return template(
-            'vaja'
+            'vaja',
+            id2 = id2,
+            vrsta = vrsta,
+            zacetek = zacetek,
+            zacetekUra = zacetekUra,
+            konec = konec,
+            konecUra = konecUra,
+            opomba = opomba,
+            opis = opis,
+            kraj = kraj,
+            kilometri= kilometri
         )
 
 @get('/dodaj-vajo/')
@@ -196,8 +222,9 @@ def dodaj_vajo():
 def dodajanje_vaje():
     if not prijavljen_uporabnik():
         raise bottle.HTTPError(401)
+    id1 = None
     try:
-        id = modeli.dodajVajo(
+        id1 = modeli.dodajVajo(
                                zacetek = bottle.request.forms.zacetek,
                                zacetekUra = bottle.request.forms.zacetekUra,
                                konec = bottle.request.forms.konec,
@@ -216,9 +243,157 @@ def dodajanje_vaje():
                                opis = bottle.request.forms.opis,
                                kraj = bottle.request.forms.kraj,
                                kilometri = bottle.request.forms.kilometri)
+    if id1 == None:
+        bottle.redirect('/vaje')
+    else:
+        bottle.redirect('/vaje/'+str(id1)+'/')
 
-    bottle.redirect('/vaje')
 
+
+@get('/vozila')
+@get('/vozila/<id1>/')
+def vozila(id1 = None):
+    if not prijavljen_uporabnik():
+        raise bottle.HTTPError(401)
+    stevilo_vozil = modeli.stevilo_vozil()
+    vozila = modeli.vsa_vozila()
+    if id1 == None:
+        return template(
+            'vozila',
+            stevilo_vozil = stevilo_vozil,
+            vozila = vozila
+        )
+@get('/dodaj-vozilo/')
+def dodaj_vozilo():
+    if not prijavljen_uporabnik():
+        raise bottle.HTTPError(401)
+    return template(
+        'dodaj_vozilo',
+        vrstaVozila = "",
+        prevozeniKm = "",
+        zadnjiTehnicni = ""
+        )
+@post('/dodaj-vozilo/')
+def dodaj_vozilo():
+    if not prijavljen_uporabnik():
+        raise bottle.HTTPError(401)
+    id1 = None
+    vrstaVozila = bottle.request.forms.vrstaVozila
+    prevozeniKm = bottle.request.forms.prevozeniKm
+    zadnjiTehnicni = bottle.request.forms.zadnjiTehnicni
+    try:
+        id1 = modeli.dodajVozilo(vrstaVozila, prevozeniKm, zadnjiTehnicni)
+    except:
+        return template('dodaj_vozilo',
+                            vrstaVozila = bottle.request.forms.vrstaVozila,
+                            prevozeniKm = bottle.request.forms.prevozeniKm,
+                            zadnjiTehnicni = bottle.request.forms.zadnjiTehnicni
+                            )
+
+    bottle.redirect('/vozila')
+                    
+@get('/ida')
+def ida(id1 = None):
+    if not prijavljen_uporabnik():
+        raise bottle.HTTPError(401)
+    clani = modeli.vsi_clani()
+    
+    seznam_uporab_ida_vseh_clanov = []
+    for i in clani:
+        sez = []
+        sez.append(i[0])
+        sez.append(modeli.stevilo_uporab_ida_clana(i[0]))
+        uporabe = modeli.poisci_uporabo_ida(i[0])
+        sez1 = []
+        for j in uporabe:
+            sez1.append(j)
+        sez.append(sez1)
+        seznam_uporab_ida_vseh_clanov.append(sez)
+    
+    
+    return template(
+        'ida',
+        seznam_uporab_ida_vseh_clanov = seznam_uporab_ida_vseh_clanov
+        )
+
+
+@get('/dodaj-uporabo-ida/')
+def dodaj_uporabo_ida():
+    if not prijavljen_uporabnik():
+        raise bottle.HTTPError(401)
+    intervencije = modeli.vse_intervencije()
+    clani = modeli.vsi_clani()
+    return template(
+        'dodaj_uporabo_ida',
+        intervencije = intervencije,
+        clani = clani,
+        intervencija = "",
+        clan = ""
+        )
+@post('/dodaj-uporabo-ida/')
+def dodaj_uporabo_ida():
+    if not prijavljen_uporabnik():
+        raise bottle.HTTPError(401)
+    clani = modeli.vsi_clani()
+
+    
+    idd = bottle.request.forms.clan
+    inte = bottle.request.forms.intervencija
+    try:
+        modeli.dodajUporaboIda(int(idd),int(inte))
+    except: 
+        return template('dodaj_uporabo_ida',
+                        intervencije = modeli.vse_intervencije(),
+                        clani = modeli.vsi_clani(),
+                        intervencija = "",
+                        clan = ""
+                             )
+    bottle.redirect('/ida')
+                    
+
+
+@get('/tecaji')
+def tecaji():
+    if not prijavljen_uporabnik():
+        raise bottle.HTTPError(401)
+    stevilo_tecajev = modeli.stevilo_tecajev()
+    tecaji = modeli.vsi_tecaji()
+    
+    return template(
+        'tecaji',
+        stevilo_tecajev = stevilo_tecajev,
+        tecaji = tecaji
+    )
+@get('/dodaj-tecaj/')
+def dodaj_tecaj():
+    if not prijavljen_uporabnik():
+        raise bottle.HTTPError(401)
+    return template(
+        'dodaj_tecaj',
+        naziv = ""
+        )
+@post('/dodaj-tecaj/')
+def dodaj_vozilo():
+    if not prijavljen_uporabnik():
+        raise bottle.HTTPError(401)
+    naziv = bottle.request.forms.naziv
+    try:
+        modeli.dodajTecaj(naziv)
+    except:
+        return template('dodaj_tecaj',
+                            naziv = naziv
+                            )
+
+    bottle.redirect('/tecaji')
+
+@get('/letno-porocilo')
+def letno_porocilo():
+    if not prijavljen_uporabnik():
+        raise bottle.HTTPError(401)
+    
+    return template(
+        'letno_porocilo'
+    )
 
 @get('/static/<filename>')
 def staticna_datoteka(filename):
