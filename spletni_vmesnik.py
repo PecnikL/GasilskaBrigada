@@ -2,6 +2,7 @@ from bottle import get,post, run, template
 import modeli
 import bottle
 import hashlib
+import porocilo
 
 SKRIVNOST = 'skriv'
 
@@ -390,10 +391,19 @@ def dodaj_vozilo():
 def letno_porocilo():
     if not prijavljen_uporabnik():
         raise bottle.HTTPError(401)
-    
+    porocilo
     return template(
         'letno_porocilo'
     )
+@post('/letno-porocilo')
+def letno_porocilo():
+    if not prijavljen_uporabnik():
+        raise bottle.HTTPError(401)
+                            
+    bottle.redirect('/izbira')
+@get('/views/letnoPorocilo.txt')
+def porociloPoberi():
+    return bottle.static_file('letnoPorocilo.txt', root='views')
 
 @get('/static/<filename>')
 def staticna_datoteka(filename):
