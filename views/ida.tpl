@@ -60,22 +60,29 @@
 
 <h2 class ="title is-2">Podatki o uporabi IDA</h2>
 
+<table style="width:70%">
+<thead>
+<tr>
+<th> Id-člana </th>
+<th> Število uporab </th>
+<th> Intervencije na katerih je bil uporabljen </th>
+</tr>
+</thead>
+<tbody>
 
 
-
-( Id-člana, Število uporab, (intervencije na katerih je bil uporabljen) )
-
-<ol>
+	
 	%for i in seznam_uporab_ida_vseh_clanov:
-		<li> 
+		<tr> 
 		%for j in range(len(i)):
 				%if j == 0:
-					<a href= "/clani/{{i[0]}}/">{{i[0]}}</a>,
+					<td><a href= "/clani/{{i[0]}}/">{{i[0]}}</a> </td>
 				%end
 				%if j==1:
-					{{i[1]}},
+					<td>{{i[1]}}</td>
 				%end
 				%if j==2:
+				<td>
 				[
 					%for k in range(len(i[2])):
 						<a href= "/intervencije/{{i[2][k][0]}}/">{{i[2][k][0]}}</a>
@@ -85,13 +92,17 @@
 						%end
 					%end
 				]
+				<td>
 				%end
 		
 		%end
-		<br>
-		</li>
+		</tr>
 	%end	
-</ol>
+
+
+</tbody>
+</table>
+
 
 
 

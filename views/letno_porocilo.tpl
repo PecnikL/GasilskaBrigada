@@ -58,10 +58,10 @@
 <h1 class ="title"> Letno poročilo </h1>
 
 
-Ustvari in naloži datoteko letnoPorocilo.txt:  <br>
+Naloži datoteko letnoPorocilo.txt:  <br>
 
 <form method="post">
-<a href="/views/letnoPorocilo.txt" download> 
+<a href="/{{datoteka}}" download> 
 
 Naloži
 </a>

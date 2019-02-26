@@ -294,7 +294,7 @@ def dodaj_vozilo():
     bottle.redirect('/vozila')
                     
 @get('/ida')
-def ida(id1 = None):
+def ida():
     if not prijavljen_uporabnik():
         raise bottle.HTTPError(401)
     clani = modeli.vsi_clani()
@@ -350,7 +350,7 @@ def dodaj_uporabo_ida():
                         clan = ""
                              )
     bottle.redirect('/ida')
-                    
+                 
 
 
 @get('/tecaji')
@@ -391,22 +391,18 @@ def dodaj_vozilo():
 def letno_porocilo():
     if not prijavljen_uporabnik():
         raise bottle.HTTPError(401)
-    porocilo
+    datoteka = "static/letnoPorocilo.txt" 
+    porocilo.napisi_porocilo(datoteka)
     return template(
-        'letno_porocilo'
+        'letno_porocilo',
+        datoteka = datoteka
     )
-@post('/letno-porocilo')
-def letno_porocilo():
-    if not prijavljen_uporabnik():
-        raise bottle.HTTPError(401)
-                            
-    bottle.redirect('/izbira')
-@get('/views/letnoPorocilo.txt')
-def porociloPoberi():
-    return bottle.static_file('letnoPorocilo.txt', root='views')
+
 
 @get('/static/<filename>')
 def staticna_datoteka(filename):
+    if not prijavljen_uporabnik():
+        raise bottle.HTTPError(401)
     return bottle.static_file(filename, root='static')
     
 

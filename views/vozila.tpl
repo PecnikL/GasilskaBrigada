@@ -64,15 +64,31 @@
 <p> Trenutno je v bazi {{ stevilo_vozil }} vozil: </p>
 <br>
 
-( vrsta vozila, prevoženi Km, zadnji Tehnični )
 
-<ol>
+
+<table style="width:100%">
+<thead>
+<tr>
+<th> Vrsta vozila </th>
+<th> prevoženi Km </th>
+<th> Zadnji tehnični pregled</th>
+</tr>
+</thead>
+<tbody>
+
 	%for id, vrstaVozila, prevozeniKm, zadnjiTehnicni in vozila:
-		<li> 
-				{{vrstaVozila}}, {{prevozeniKm}}, {{zadnjiTehnicni}}
-		</li>
-	%end	
-</ol>
+		<tr> 
+				<td>  {{vrstaVozila}} </td>
+				<td>  {{prevozeniKm}}  </td>
+				<td>  {{zadnjiTehnicni}} </td> 
+		</tr>
+	%end
+
+
+</tbody>
+</table>
+
+
 
 
 
