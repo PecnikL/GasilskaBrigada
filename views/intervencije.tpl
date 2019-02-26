@@ -61,19 +61,31 @@
 <h2 class ="title is-2">Intervencije PGD Hrušica</h2>
 
 <h3 class ="title is-3">Pretekle intervencije</h3>
+<table style="width:100%">
+<thead>
+<tr>
+<th> Začetek </th>
+<th> Začetek ura </th>
+<th> Konec </th>
+<th> Konec ura </th>
+<th> Kraj </th>
+</tr>
+</thead>
+<tbody>
 
-( Začetek, Začetek ura, Konec, Konec ura, Kraj )
-
-<ol>
 	%for id, zacetek, zacetekUra, konec, konecUra, kraj in interv:
-		<li> 
-			<a href = "/intervencije/{{id}}/">
-				{{zacetek}}, {{zacetekUra}}, {{konec}}, {{konecUra}}, {{kraj}}
-			</a>
-		</li>
+		<tr> 
+				<td> <a href = "/intervencije/{{id}}/" > {{zacetek}} </a> </td>
+				<td> <a href = "/intervencije/{{id}}/" > {{zacetekUra}} </a> </td>
+				<td> <a href = "/intervencije/{{id}}/" > {{konec}} </a> </td> 
+				<td> <a href = "/intervencije/{{id}}/" > {{konecUra}} </a> </td> 
+				<td> <a href = "/intervencije/{{id}}/" > {{kraj}} </a> </td>
+		</tr>
 	%end
 
-</ol>
+
+</tbody>
+</table>
 
 
 
