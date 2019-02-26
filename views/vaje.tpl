@@ -64,18 +64,29 @@
 
 <h3 class ="title is-3">Pretekle vaje</h3>
 
-( Začetek, Začetek ura, Konec, Konec ura, Kraj )
+<table style="width:100%">
+<thead>
+<tr>
+<th> Začetek </th>
+<th> Začetek ura </th>
+<th> Konec </th>
+<th> Konec ura </th>
+<th> Kraj </th>
+</tr>
+</thead>
 
-<ol>
 	%for id, zacetek, zacetekUra, konec, konecUra, kraj in vaje:
-		<li> 
-			<a href = "/vaje/{{id}}/">
-				{{zacetek}}, {{zacetekUra}}, {{konec}}, {{konecUra}}, {{kraj}}
-			</a>
-		</li>
+	
+		<tr> 
+				<td> <a href = "/vaje/{{id}}/" > {{zacetek}} </a> </td>
+				<td> <a href = "/vaje/{{id}}/" > {{zacetekUra}} </a> </td>
+				<td> <a href = "/vaje/{{id}}/" > {{konec}} </a> </td> 
+				<td> <a href = "/vaje/{{id}}/" > {{konecUra}} </a> </td> 
+				<td> <a href = "/vaje/{{id}}/" > {{kraj}} </a> </td>
+		</tr>
 	%end
 
-</ol>
+</table>
 
 
 
