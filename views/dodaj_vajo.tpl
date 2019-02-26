@@ -59,21 +59,21 @@
 
 <form method="post">
 
-zacetek: <input type="text" name="zacetek" value="{{zacetek}}" /><br />
+Začetek: <input type="text" name="zacetek" value="{{zacetek}}" /><br />
 
-zacetekUra: <input type="text" name="zacetekUra" value="{{zacetekUra}}" /><br />
+Začetek ura: <input type="text" name="zacetekUra" value="{{zacetekUra}}" /><br />
 
-konec: <input type="text" name="konec" value="{{konec}}" /><br />
+Konec: <input type="text" name="konec" value="{{konec}}" /><br />
 
-konecUra: <input type="text" name="konecUra" value="{{konecUra}}" /><br />
+Konec ura: <input type="text" name="konecUra" value="{{konecUra}}" /><br />
 
-opomba: <input type="text" name="opomba" value="{{opomba}}" /><br />
+Opomba: <input type="text" name="opomba" value="{{opomba}}" /><br />
 
-opis: <input type="text" name="opis" value="{{opis}}" /><br />
+Opis: <input type="text" name="opis" value="{{opis}}" /><br />
 
-kraj: <input type="text" name="kraj" value="{{kraj}}" /><br />
+Kraj: <input type="text" name="kraj" value="{{kraj}}" /><br />
 
-kilometri: <input type="text" name="kilometri" value="{{kilometri}}" /><br />
+Kilometri: <input type="text" name="kilometri" value="{{kilometri}}" /><br />
 
 
 <input type = "submit" value = "Dodaj vajo">
